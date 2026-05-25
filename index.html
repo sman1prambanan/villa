@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>exsociothree</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:
+  linear-gradient(rgba(15,23,42,.75),rgba(15,23,42,.85)),
+  url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop') center/cover;
+  overflow-x:hidden;
+}
+
+.container{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+.hero{
+  text-align:center;
+  color:white;
+  padding:80px 20px;
+}
+
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:10px 20px;
+  border-radius:999px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+.hero h1{
+  font-size:55px;
+  margin-bottom:15px;
+  font-weight:700;
+}
+
+.hero p{
+  max-width:700px;
+  margin:auto;
+  color:#dbeafe;
+  line-height:1.7;
+}
+
+.button-group{
+  margin-top:35px;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+  transition:.3s;
+  font-weight:600;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:white;
+  padding:15px 28px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(37,99,235,.35);
+}
+
+.btn-primary:hover{
+  transform:translateY(-3px);
+}
+
+.btn-secondary{
+  background:rgba(255,255,255,0.15);
+  color:white;
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:15px 28px;
+  border-radius:16px;
+}
+
+.btn-secondary:hover{
+  background:rgba(255,255,255,0.25);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-top:40px;
+}
+
+.stat-card{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  padding:25px;
+  border-radius:24px;
+  color:white;
+}
+
+.stat-card h2{
+  font-size:40px;
+  margin-bottom:8px;
+}
+
+.stat-card p{
+  color:#dbeafe;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  z-index:999;
+}
+
+.hidden{
+  display:none;
+}
+
+.modal-content{
+  width:100%;
+  max-width:850px;
+  max-height:88vh;
+  overflow:hidden;
+  border-radius:28px;
+  background:white;
+  animation:popup .25s ease;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
+  display:flex;
+  flex-direction:column;
+}
+
+@keyframes popup{
+  from{
+    transform:scale(.85);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:25px 30px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.modal-header h2{
+  font-size:28px;
+}
+
+.close{
+  font-size:30px;
+  cursor:pointer;
+}
+
+.modal-body{
+  padding:30px;
+  overflow:auto;
+  max-height:calc(88vh - 90px);
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+  color:#111827;
+}
+
+select{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid #d1d5db;
+  font-size:15px;
+}
+
+.checkbox{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  margin:20px 0;
+}
+
+.checkbox label{
+  font-size:14px;
+  font-weight:500;
+  color:#374151;
+}
+
+.submit-btn{
+  width:100%;
+  padding:16px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:white;
+  font-size:16px;
+}
+
+.submit-btn:hover{
+  transform:translateY(-2px);
+}
+
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+  border-radius:18px;
+  border:1px solid #e5e7eb;
+  background:white;
+}
+
+table{
+  width:100%;
+  min-width:500px;
+  border-collapse:collapse;
+  background:white;
+}
+
+thead{
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+th{
+  background:#eff6ff;
+  color:#1e3a8a;
+  font-size:14px;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+th,td{
+  padding:16px;
+  text-align:left;
+  border-bottom:1px solid #e5e7eb;
+}
+
+td{
+  font-size:14px;
+  color:#374151;
+}
+
+tr:hover{
+  background:#f9fafb;
+}
+
+tr:last-child td{
+  border-bottom:none;
+}
+
+.status{
+  padding:8px 14px;
+  border-radius:999px;
+  color:white;
+  font-size:13px;
+  font-weight:600;
+}
+
+.mengikuti{
+  background:#16a34a;
+}
+
+.tidak{
+  background:#dc2626;
+}
+
+.belum{
+  background:#9ca3af;
+}
+
+.loading{
+  display:none;
+  text-align:center;
+  padding:25px;
+  color:#6b7280;
+  font-weight:500;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  margin:0 auto 14px;
+  border:5px solid rgba(147,197,253,.35);
+  border-top-color:#3b82f6;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+.page-loader{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  color:#eff6ff;
+  text-align:center;
+  padding:20px;
+}
+
+.page-loader p{
+  margin-top:14px;
+  font-size:16px;
+  color:#dbeafe;
+}
+
+.loader-card{
+  background:rgba(15,23,42,.95);
+  padding:32px 40px;
+  border-radius:28px;
+  box-shadow:0 25px 80px rgba(15,23,42,.45);
+}
+
+.dialog-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1100;
+  padding:24px;
+}
+
+.dialog-card{
+  width:100%;
+  max-width:420px;
+  background:white;
+  border-radius:24px;
+  padding:28px 26px;
+  box-shadow:0 35px 80px rgba(15,23,42,.18);
+  text-align:center;
+}
+
+.dialog-icon{
+  width:70px;
+  height:70px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  box-shadow:0 20px 40px rgba(59,130,246,.3);
+}
+
+.dialog-card h3{
+  margin-bottom:14px;
+  font-size:22px;
+  color:#111827;
+}
+
+.dialog-card p{
+  color:#4b5563;
+  line-height:1.7;
+  margin-bottom:24px;
+}
+
+.dialog-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.dialog-actions button{
+  min-width:120px;
+}
+
+.dialog-overlay.hidden{
+  display:none;
+}
+
+.button-loading{
+  opacity:.75;
+  cursor:not-allowed;
+}
+
+.button-loading .button-spinner{
+  width:16px;
+  height:16px;
+  border:3px solid rgba(255,255,255,.5);
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin-right:10px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.table-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.footer{
+  text-align:center;
+  color:white;
+  margin-top:50px;
+  opacity:.7;
+}
+
+@media(max-width:768px){
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .modal-content{
+    max-width:100%;
+    border-radius:22px;
+  }
+
+  .modal-header h2{
+    font-size:22px;
+  }
+
+  .modal-body{
+    padding:18px;
+  }
+
+  table{
+    min-width:420px;
+  }
+
+  th,td{
+    padding:12px;
+    font-size:12px;
+  }
+
+  .status{
+    font-size:11px;
+    padding:6px 10px;
+  }
+
+}
+</style>
+</head>
+<body>
+
+<div id="pageLoader" class="page-loader">
+  <div class="loader-card">
+    <div class="spinner"></div>
+    <p>Memuat halaman... tunggu sebentar</p>
+  </div>
+</div>
+
+<div id="dialogOverlay" class="dialog-overlay hidden" aria-hidden="true">
+  <div class="dialog-card">
+    <div class="dialog-icon"></div>
+    <h3 id="dialogTitle"></h3>
+    <p id="dialogMessage"></p>
+    <div class="dialog-actions">
+      <button id="dialogCancel" class="btn-secondary hidden"></button>
+      <button id="dialogConfirm" class="btn-primary"></button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="hero">
+
+    <div class="badge">
+      Data ini di awasi Pengurus kelas 12G
+    </div>
+
+    <h1>Villa Exsociothree</h1>
+
+    <p>
+      Silahkan lakukan pendataan keikutsertaan acara villa.
+      Pastikan data yang dikirim sudah benar sebelum dikirim ke pusat.
+    </p>
+
+    <div class="button-group">
+
+      <button class="btn-primary" onclick="openFormModal(this)">
+        Isi Pendataan
+      </button>
+
+      <button class="btn-secondary" onclick="openTableModal(this)">
+        Lihat Daftar Pendataan
+      </button>
+
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <h2 id="ikutCount">0</h2>
+        <p>Mengikuti</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="tidakCount">0</h2>
+        <p>Tidak Mengikuti</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="belumCount">0</h2>
+        <p>Belum Mengisi</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © exsociothree 2026. All Right Reserved.
+  </div>
+
+</div>
+
+<!-- FORM -->
+<div class="modal hidden" id="formModal">
+
+  <div class="modal-content" style="max-width:500px;">
+
+    <div class="modal-header">
+      <h2>Isi Pendataan</h2>
+
+      <span class="close" onclick="closeFormModal()">
+        &times;
+      </span>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Nama Siswa</label>
+
+        <select id="nama">
+          <option value="">Pilih Nama</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status Kehadiran</label>
+
+        <select id="status">
+          <option value="">Pilih Status</option>
+          <option value="Mengikuti">Mengikuti</option>
+          <option value="Tidak Mengikuti">Tidak Mengikuti</option>
+        </select>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="setuju">
+
+        <label for="setuju">
+          Saya sudah memeriksa kembali data dan siap mengirim ke pusat.
+        </label>
+      </div>
+
+      <button class="submit-btn" onclick="submitData(this)">
+        Kirim Pendataan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TABEL -->
+<div class="modal hidden" id="tableModal">
+
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h2>Daftar Pendataan</h2>
+
+      <span class="close" onclick="closeTableModal()">
+        &times;
+      </span>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="table-top">
+
+        <button class="btn-primary" onclick="openFormModal(this)">
+          Isi Data
+        </button>
+
+      </div>
+
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        Memuat data...
+      </div>
+
+      <div class="table-wrapper">
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="tableBody"></tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzvfsWVtRmtRMjoOvcmDl-Ee2mX5GJRyI_-ylfahsF_0IoBQCUyOoJ-R9k-HEtP0R7y0g/exec";
+
+/* =========================
+   MODAL
+========================= */
+
+async function openFormModal(button){
+  const submitButton = button;
+  setButtonLoading(submitButton, true, 'Memuat...');
+
+  try {
+    const sudahIsi = localStorage.getItem('villa_finalisasi');
+
+    if(sudahIsi === 'sudah'){
+      const savedName = localStorage.getItem('villa_finalisasi_nama');
+      const resetAllowed = await isFinalizationReset(savedName);
+
+      if(resetAllowed){
+        localStorage.removeItem('villa_finalisasi');
+        localStorage.removeItem('villa_finalisasi_nama');
+      }
+    }
+
+    const stillBlocked = localStorage.getItem('villa_finalisasi') === 'sudah';
+
+    if(stillBlocked){
+      await showDialog({
+        title:'Perangkat Terdeteksi',
+        message:'Perangkat Anda terdeteksi telah menyelesaikan pengisian data. Jika data sudah dihapus di server, silakan muat ulang halaman dan coba lagi.',
+        type:'info',
+        confirmText:'Tutup'
+      });
+      return;
+    }
+
+    document.getElementById('formModal')
+      .classList.remove('hidden');
+  }
+  finally {
+    setButtonLoading(submitButton, false);
+  }
+}
+
+async function isFinalizationReset(savedName){
+  if(!savedName){
+    return true;
+  }
+
+  try{
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    const row = data.find(item => item.nama === savedName);
+
+    return !row || row.status === '';
+  }
+  catch(error){
+    console.error('Check reset failed:', error);
+    return false;
+  }
+}
+
+const dialogOverlay = document.getElementById('dialogOverlay');
+const dialogTitle = document.getElementById('dialogTitle');
+const dialogMessage = document.getElementById('dialogMessage');
+const dialogConfirm = document.getElementById('dialogConfirm');
+const dialogCancel = document.getElementById('dialogCancel');
+let dialogResolve = null;
+
+dialogConfirm.addEventListener('click', () => closeDialog(true));
+dialogCancel.addEventListener('click', () => closeDialog(false));
+dialogOverlay.addEventListener('click', event => {
+  if(event.target === dialogOverlay){
+    closeDialog(false);
+  }
+});
+
+function showDialog({title, message, type = 'info', confirmText = 'OK', cancelText = 'Batal'}){
+  dialogTitle.textContent = title;
+  dialogMessage.textContent = message;
+  dialogConfirm.textContent = confirmText;
+
+  if(type === 'confirm'){
+    dialogCancel.classList.remove('hidden');
+    dialogCancel.textContent = cancelText;
+  }
+  else{
+    dialogCancel.classList.add('hidden');
+  }
+
+  dialogOverlay.classList.remove('hidden');
+
+  return new Promise(resolve => {
+    dialogResolve = resolve;
+  });
+}
+
+function closeDialog(result){
+  dialogOverlay.classList.add('hidden');
+  if(dialogResolve){
+    dialogResolve(result);
+    dialogResolve = null;
+  }
+}
+
+function closeFormModal(){
+  document.getElementById('formModal')
+    .classList.add('hidden');
+}
+
+async function openTableModal(button){
+  const actionButton = button;
+  setButtonLoading(actionButton, true, 'Memuat...');
+
+  document.getElementById('tableModal')
+    .classList.remove('hidden');
+
+  try {
+    await loadData();
+  }
+  finally {
+    setButtonLoading(actionButton, false);
+  }
+}
+
+function closeTableModal(){
+  document.getElementById('tableModal')
+    .classList.add('hidden');
+}
+
+/* =========================
+   LOAD DATA
+========================= */
+
+async function loadData(){
+  const tableBody = document.getElementById('tableBody');
+  const namaSelect = document.getElementById('nama');
+  const loading = document.getElementById('loading');
+
+  tableBody.innerHTML = '';
+  namaSelect.innerHTML =
+    '<option value="">Pilih Nama</option>';
+  loading.style.display = 'block';
+
+  let ikut = 0;
+  let tidak = 0;
+  let belum = 0;
+
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+
+    const savedName = localStorage.getItem('villa_finalisasi_nama');
+    if(savedName){
+      const row = data.find(item => item.nama === savedName);
+      if(!row || row.status === ''){
+        localStorage.removeItem('villa_finalisasi');
+        localStorage.removeItem('villa_finalisasi_nama');
+      }
+    }
+
+    data.forEach(item => {
+
+      let statusClass = 'belum';
+      let statusText = 'Menunggu';
+
+      if(item.status === 'Mengikuti'){
+        statusClass = 'mengikuti';
+        statusText = 'Mengikuti';
+        ikut++;
+      }
+      else if(item.status === 'Tidak Mengikuti'){
+        statusClass = 'tidak';
+        statusText = 'Tidak Ikut';
+        tidak++;
+      }
+      else{
+        belum++;
+      }
+
+      tableBody.innerHTML += `
+        <tr>
+          <td>${item.no}</td>
+          <td>${item.nama}</td>
+          <td>
+            <span class="status ${statusClass}">
+              ${statusText}
+            </span>
+          </td>
+        </tr>
+      `;
+
+      if(item.status === ''){
+        namaSelect.innerHTML += `
+          <option value="${item.nama}">
+            ${item.nama}
+          </option>
+        `;
+      }
+
+    });
+
+    document.getElementById('ikutCount').innerText = ikut;
+    document.getElementById('tidakCount').innerText = tidak;
+    document.getElementById('belumCount').innerText = belum;
+  }
+  catch(error){
+    console.error(error);
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center;padding:20px;color:#6b7280;">
+          Gagal memuat data. Silakan coba lagi.
+        </td>
+      </tr>
+    `;
+  }
+  finally{
+    loading.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const pageLoader = document.getElementById('pageLoader');
+  pageLoader.style.display = 'flex';
+  await loadData();
+  pageLoader.style.display = 'none';
+});
+
+/* =========================
+   SUBMIT DATA
+========================= */
+
+async function submitData(button){
+  const submitButton = button;
+  const originalText = submitButton.innerHTML;
+  setButtonLoading(submitButton, true, 'Mengirim...');
+
+  const nama = document.getElementById('nama').value;
+  const status = document.getElementById('status').value;
+  const setuju = document.getElementById('setuju').checked;
+
+  try{
+    if(!nama || !status){
+      await showDialog({
+        title:'Data Kurang Lengkap',
+        message:'Lengkapi nama dan status sebelum mengirim pendataan.',
+        type:'info',
+        confirmText:'Oke'
+      });
+      return;
+    }
+
+    if(!setuju){
+      await showDialog({
+        title:'Persetujuan Dibutuhkan',
+        message:'Silakan centang persetujuan sebelum melanjutkan.',
+        type:'info',
+        confirmText:'Oke'
+      });
+      return;
+    }
+
+    const yakin = await showDialog({
+      title:'Konfirmasi Kirim Data',
+      message:`Nama: ${nama}\nStatus: ${status}\n\nPastikan data sudah benar sebelum dikirim.`, 
+      type:'confirm',
+      confirmText:'Kirim',
+      cancelText:'Batal'
+    });
+
+    if(!yakin){
+      return;
+    }
+
+    const response = await fetch(API_URL,{
+      method:'POST',
+      body:JSON.stringify({
+        nama:nama,
+        status:status
+      })
+    });
+
+    const result = await response.json();
+
+    await showDialog({
+      title: result.success ? 'Berhasil' : 'Gagal',
+      message: result.message,
+      type:'info',
+      confirmText:'Tutup'
+    });
+
+    if(result.success){
+      localStorage.setItem('villa_finalisasi','sudah');
+      localStorage.setItem('villa_finalisasi_nama',nama);
+      document.getElementById('status').value = '';
+      document.getElementById('setuju').checked = false;
+      closeFormModal();
+      loadData();
+    }
+  }
+  catch(error){
+    console.error(error);
+    await showDialog({
+      title:'Kesalahan Jaringan',
+      message:'Terjadi kesalahan saat mengirim. Silakan coba lagi.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+  }
+  finally{
+    setButtonLoading(submitButton, false, originalText);
+  }
+}
+
+function setButtonLoading(button, loading, text = null){
+  if(!button) return;
+
+  if(loading){
+    if(!button.dataset.originalText){
+      button.dataset.originalText = button.textContent.trim();
+    }
+    button.disabled = true;
+    button.classList.add('button-loading');
+    button.innerHTML = text ? `<span class="button-spinner"></span>${text}` : `<span class="button-spinner"></span>${button.dataset.originalText}`;
+  }
+  else{
+    button.disabled = false;
+    button.classList.remove('button-loading');
+    if(button.dataset.originalText){
+      button.textContent = button.dataset.originalText;
+      delete button.dataset.originalText;
+    } else if(text){
+      button.textContent = text;
+    } else {
+      button.innerHTML = button.innerHTML.replace(/<span class="button-spinner"><\/span>/, '');
+    }
+  }
+}
+
+</script>
+
+</body>
+</html>
