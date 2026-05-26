@@ -524,9 +524,51 @@ tr:last-child td{
         Lihat Daftar Pendataan
       </button>
 
-      <button class="btn-primary" onclick="openTPRModal(this)">
-        Kode TPR
+      <button class="btn-primary" id="tprButton" onclick="handleTPRAccess(this)">
+       Kode TPR
       </button>
+
+    </div>
+
+    <div id="countdownBox" style="
+      margin-top:25px;
+      color:white;
+      text-align:center;
+    ">
+
+      <div style="
+        display:inline-block;
+        background:rgba(255,255,255,0.12);
+        border:1px solid rgba(255,255,255,0.15);
+        backdrop-filter:blur(10px);
+        padding:18px 24px;
+        border-radius:20px;
+      ">
+
+        <p style="
+          font-size:14px;
+          color:#dbeafe;
+          margin-bottom:8px;
+        ">
+          Kode TPR Dibuka Pada
+        </p>
+
+        <h3 style="
+          margin-bottom:10px;
+          font-size:22px;
+        ">
+          15 Juli 2026 • 14:00 WIB
+        </h3>
+
+        <div id="countdownTimer" style="
+          font-size:28px;
+          font-weight:700;
+          letter-spacing:2px;
+        ">
+          00 : 00 : 00
+        </div>
+
+      </div>
 
     </div>
 
@@ -1314,6 +1356,83 @@ function setButtonLoading(button, loading, text = null){
       button.innerHTML = button.innerHTML.replace(/<span class="button-spinner"><\/span>/, '');
     }
   }
+}
+
+const TPR_OPEN_DATE =
+  new Date('2026-07-15T14:00:00+07:00');
+
+function updateCountdown(){
+
+  const now = new Date().getTime();
+
+  const distance =
+    TPR_OPEN_DATE.getTime() - now;
+
+  const countdown =
+    document.getElementById('countdownTimer');
+
+  const button =
+    document.getElementById('tprButton');
+
+  if(distance <= 0){
+
+    countdown.innerHTML = 'AKSES DIBUKA';
+
+    button.disabled = false;
+
+    button.style.opacity = '1';
+
+    return;
+
+  }
+
+  button.disabled = true;
+
+  button.style.opacity = '.6';
+
+  const days =
+    Math.floor(distance / (1000 * 60 * 60 * 24));
+
+  const hours =
+    Math.floor((distance % (1000 * 60 * 60 * 24))
+    / (1000 * 60 * 60));
+
+  const minutes =
+    Math.floor((distance % (1000 * 60 * 60))
+    / (1000 * 60));
+
+  const seconds =
+    Math.floor((distance % (1000 * 60))
+    / 1000);
+
+  countdown.innerHTML =
+    `${days} : ${hours} : ${minutes} : ${seconds}`;
+
+}
+
+setInterval(updateCountdown, 1000);
+
+updateCountdown();
+
+async function handleTPRAccess(button){
+
+  const now = new Date();
+
+  if(now < TPR_OPEN_DATE){
+
+    showDialog({
+      title:'Akses Belum Dibuka',
+      message:'Kode TPR baru dapat dibuka pada 15 Juli 2026 pukul 14.00 WIB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+
+    return;
+
+  }
+
+  openTPRModal(button);
+
 }
 
 </script>
