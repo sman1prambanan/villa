@@ -604,6 +604,48 @@ tr:last-child td{
 
 </div>
 
+<!-- PASSWORD MODAL -->
+<div class="modal hidden" id="passwordModal">
+
+  <div class="modal-content" style="max-width:420px;">
+
+    <div class="modal-header">
+      <h2>Akses Pendataan</h2>
+
+      <span class="close" onclick="closePasswordModal()">
+        &times;
+      </span>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Masukkan Password</label>
+
+        <input 
+          type="password"
+          id="tablePassword"
+          placeholder="Masukkan password"
+          style="
+            width:100%;
+            padding:15px;
+            border-radius:14px;
+            border:1px solid #d1d5db;
+            font-size:15px;
+          "
+        >
+      </div>
+
+      <button class="submit-btn" onclick="checkPassword(this)">
+        Masuk
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 <!-- TABEL -->
 <div class="modal hidden" id="tableModal">
 
@@ -765,19 +807,55 @@ function closeFormModal(){
     .classList.add('hidden');
 }
 
-async function openTableModal(button){
-  const actionButton = button;
-  setButtonLoading(actionButton, true, 'Memuat...');
-
-  document.getElementById('tableModal')
+function openTableModal(){
+  document.getElementById('passwordModal')
     .classList.remove('hidden');
+}
 
-  try {
-    await loadData();
+const TABLE_PASSWORD = "VIGARA@123";
+
+function closePasswordModal(){
+  document.getElementById('passwordModal')
+    .classList.add('hidden');
+
+  document.getElementById('tablePassword').value = '';
+}
+
+async function checkPassword(button){
+
+  const passwordInput =
+    document.getElementById('tablePassword');
+
+  const password = passwordInput.value;
+
+  setButtonLoading(button, true, 'Memeriksa...');
+
+  try{
+
+    if(password === TABLE_PASSWORD){
+
+      closePasswordModal();
+
+      document.getElementById('tableModal')
+        .classList.remove('hidden');
+
+      await loadData();
+
+    }else{
+
+      await showDialog({
+        title:'Password Salah',
+        message:'Password yang dimasukkan tidak benar.',
+        type:'info',
+        confirmText:'Tutup'
+      });
+
+    }
+
+  }finally{
+    setButtonLoading(button, false);
   }
-  finally {
-    setButtonLoading(actionButton, false);
-  }
+
 }
 
 function closeTableModal(){
