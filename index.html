@@ -524,6 +524,10 @@ tr:last-child td{
         Lihat Daftar Pendataan
       </button>
 
+      <button class="btn-primary" onclick="openTPRModal(this)">
+        Kode TPR
+      </button>
+
     </div>
 
     <div class="stats">
@@ -687,6 +691,141 @@ tr:last-child td{
 
           <tbody id="tableBody"></tbody>
         </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MODAL PILIH TPR -->
+<div class="modal hidden" id="tprModal">
+
+  <div class="modal-content" style="max-width:500px;">
+
+    <div class="modal-header">
+      <h2>Kode Masuk TPR</h2>
+
+      <span class="close" onclick="closeTPRModal()">
+        &times;
+      </span>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+        <label>Pilih Nama Peserta</label>
+
+        <select id="tprNama">
+          <option value="">Pilih Nama</option>
+        </select>
+      </div>
+
+      <button class="submit-btn" onclick="showTPRCard()">
+        Tampilkan Kode
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- KARTU TPR -->
+<div class="modal hidden" id="tprCardModal">
+
+  <div class="modal-content" style="max-width:600px;">
+
+    <div class="modal-header">
+      <h2>Surat Masuk TPR Kaliurang</h2>
+
+      <span class="close" onclick="closeTPRCard()">
+        &times;
+      </span>
+    </div>
+
+    <div class="modal-body">
+
+      <div style="
+        border:2px dashed #3b82f6;
+        border-radius:24px;
+        padding:30px;
+        background:#f8fbff;
+      ">
+
+        <h2 style="
+          text-align:center;
+          color:#1e3a8a;
+          margin-bottom:25px;
+        ">
+          TPR KALIURANG
+        </h2>
+
+        <p style="margin-bottom:14px;">
+          Dengan ini menyatakan bahwa:
+        </p>
+
+        <h1 id="tprNamaText" style="
+          font-size:34px;
+          color:#111827;
+          margin-bottom:20px;
+        ">
+          -
+        </h1>
+
+        <p style="
+          color:#374151;
+          line-height:1.8;
+          margin-bottom:25px;
+        ">
+          Terdaftar sebagai peserta resmi kegiatan villa dan
+          diperbolehkan masuk ke area TPR Kaliurang.
+        </p>
+
+        <div style="
+          background:white;
+          border-radius:18px;
+          padding:20px;
+          border:1px solid #dbeafe;
+          margin-bottom:20px;
+        ">
+
+          <p style="
+            font-size:13px;
+            color:#6b7280;
+            margin-bottom:8px;
+          ">
+            KODE MASUK
+          </p>
+
+          <h2 id="tprCode" style="
+            letter-spacing:3px;
+            color:#2563eb;
+            font-size:28px;
+          ">
+            -
+          </h2>
+
+        </div>
+
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:10px;
+          background:#dcfce7;
+          color:#166534;
+          padding:14px 18px;
+          border-radius:14px;
+          font-weight:600;
+        ">
+
+          <span style="font-size:22px;">✅</span>
+
+          <span>Kode Aktif & Terverifikasi</span>
+
+        </div>
 
       </div>
 
@@ -861,6 +1000,111 @@ async function checkPassword(button){
 function closeTableModal(){
   document.getElementById('tableModal')
     .classList.add('hidden');
+}
+
+async function openTPRModal(button){
+
+  setButtonLoading(button, true, 'Memuat...');
+
+  try{
+
+    const response = await fetch(API_URL);
+    const data = await response.json();
+
+    const select = document.getElementById('tprNama');
+
+    select.innerHTML =
+      '<option value="">Pilih Nama</option>';
+
+    data.forEach(item => {
+
+      if(item.status === 'Mengikuti'){
+
+        select.innerHTML += `
+          <option value="${item.nama}">
+            ${item.nama}
+          </option>
+        `;
+
+      }
+
+    });
+
+    document.getElementById('tprModal')
+      .classList.remove('hidden');
+
+  }catch(error){
+
+    console.error(error);
+
+    showDialog({
+      title:'Gagal',
+      message:'Tidak dapat memuat data peserta.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+
+  }finally{
+    setButtonLoading(button, false);
+  }
+
+}
+
+function closeTPRModal(){
+
+  document.getElementById('tprModal')
+    .classList.add('hidden');
+
+}
+
+function closeTPRCard(){
+
+  document.getElementById('tprCardModal')
+    .classList.add('hidden');
+
+}
+
+function generateTPRCode(nama){
+
+  const random =
+    Math.floor(Math.random() * 9000) + 1000;
+
+  return 'TPR-' +
+    nama.substring(0,3).toUpperCase() +
+    '-' +
+    random;
+
+}
+
+function showTPRCard(){
+
+  const nama =
+    document.getElementById('tprNama').value;
+
+  if(!nama){
+
+    showDialog({
+      title:'Nama Belum Dipilih',
+      message:'Silakan pilih nama terlebih dahulu.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+
+    return;
+
+  }
+
+  const kode = generateTPRCode(nama);
+
+  document.getElementById('tprNamaText')
+    .textContent = nama;
+
+  document.getElementById('tprCode')
+    .textContent = kode;
+
+  document.getElementById('tprCardModal')
+    .classList.remove('hidden');
+
 }
 
 /* =========================
