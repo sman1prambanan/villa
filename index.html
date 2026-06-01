@@ -20,8 +20,11 @@
 body{
   min-height:100vh;
   background:
-  linear-gradient(rgba(15,23,42,.75),rgba(15,23,42,.85)),
+  radial-gradient(circle at top left,rgba(34,197,94,.22),transparent 34%),
+  radial-gradient(circle at top right,rgba(59,130,246,.28),transparent 32%),
+  linear-gradient(rgba(15,23,42,.76),rgba(15,23,42,.88)),
   url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop') center/cover;
+  background-attachment:fixed;
   overflow-x:hidden;
 }
 
@@ -35,7 +38,7 @@ body{
 .hero{
   text-align:center;
   color:white;
-  padding:80px 20px;
+  padding:70px 20px 44px;
 }
 
 .badge{
@@ -50,9 +53,10 @@ body{
 }
 
 .hero h1{
-  font-size:55px;
+  font-size:clamp(38px,7vw,68px);
   margin-bottom:15px;
   font-weight:700;
+  text-shadow:0 18px 45px rgba(0,0,0,.38);
 }
 
 .hero p{
@@ -78,11 +82,11 @@ button{
 }
 
 .btn-primary{
-  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  background:linear-gradient(135deg,#2563eb,#14b8a6);
   color:white;
   padding:15px 28px;
   border-radius:16px;
-  box-shadow:0 10px 25px rgba(37,99,235,.35);
+  box-shadow:0 12px 28px rgba(20,184,166,.28);
 }
 
 .btn-primary:hover{
@@ -102,6 +106,18 @@ button{
   background:rgba(255,255,255,0.25);
 }
 
+.modal .btn-secondary,
+.dialog-card .btn-secondary{
+  background:#f1f5f9;
+  color:#0f172a;
+  border:1px solid #cbd5e1;
+}
+
+.modal .btn-secondary:hover,
+.dialog-card .btn-secondary:hover{
+  background:#e2e8f0;
+}
+
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -110,12 +126,13 @@ button{
 }
 
 .stat-card{
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.15);
-  backdrop-filter:blur(10px);
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.1));
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(14px);
   padding:25px;
-  border-radius:24px;
+  border-radius:20px;
   color:white;
+  box-shadow:0 18px 45px rgba(15,23,42,.18);
 }
 
 .stat-card h2{
@@ -125,6 +142,130 @@ button{
 
 .stat-card p{
   color:#dbeafe;
+}
+
+.payment-panel{
+  margin:34px auto 0;
+  max-width:920px;
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:18px;
+  text-align:left;
+  color:white;
+}
+
+.payment-card{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 20px 55px rgba(15,23,42,.22);
+}
+
+.payment-card h2{
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.payment-card p{
+  color:#dbeafe;
+  line-height:1.7;
+  margin-bottom:18px;
+}
+
+.paid-mini-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.paid-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  padding:8px 13px;
+  border-radius:999px;
+  background:rgba(220,252,231,.95);
+  color:#14532d;
+  font-size:13px;
+  font-weight:600;
+}
+
+.empty-paid{
+  color:#dbeafe;
+  font-size:14px;
+}
+
+.payment-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(240px,.75fr);
+  gap:22px;
+}
+
+.payment-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.payment-note{
+  background:#f0fdfa;
+  color:#115e59;
+  border:1px solid #99f6e4;
+  border-radius:16px;
+  padding:16px;
+  line-height:1.7;
+}
+
+.paid-list{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+
+.paid-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  background:#fff;
+  color:#111827;
+  font-weight:600;
+}
+
+.barcode-box{
+  width:100%;
+  min-height:280px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:2px dashed #14b8a6;
+  border-radius:22px;
+  background:#f8fafc;
+  padding:22px;
+}
+
+.barcode-box img{
+  max-width:100%;
+  max-height:360px;
+  object-fit:contain;
+  border-radius:16px;
+}
+
+.barcode-placeholder h3{
+  color:#134e4a;
+  margin-bottom:10px;
+}
+
+.barcode-placeholder p{
+  color:#475569;
+  line-height:1.7;
 }
 
 /* MODAL */
@@ -246,7 +387,7 @@ select{
 
 table{
   width:100%;
-  min-width:500px;
+  min-width:620px;
   border-collapse:collapse;
   background:white;
 }
@@ -475,6 +616,23 @@ tr:last-child td{
     padding:6px 10px;
   }
 
+  .payment-panel,
+  .payment-layout{
+    grid-template-columns:1fr;
+  }
+
+  .payment-card{
+    padding:20px;
+  }
+
+  .payment-actions{
+    flex-direction:column;
+  }
+
+  .payment-actions button{
+    width:100%;
+  }
+
 }
 </style>
 </head>
@@ -524,51 +682,9 @@ tr:last-child td{
         Lihat Daftar Pendataan
       </button>
 
-      <button class="btn-primary" id="tprButton" onclick="handleTPRAccess(this)">
-       Kode TPR
+      <button class="btn-primary" onclick="openPaymentModal(this)">
+        Akses Pembayaran
       </button>
-
-    </div>
-
-    <div id="countdownBox" style="
-      margin-top:25px;
-      color:white;
-      text-align:center;
-    ">
-
-      <div style="
-        display:inline-block;
-        background:rgba(255,255,255,0.12);
-        border:1px solid rgba(255,255,255,0.15);
-        backdrop-filter:blur(10px);
-        padding:18px 24px;
-        border-radius:20px;
-      ">
-
-        <p style="
-          font-size:14px;
-          color:#dbeafe;
-          margin-bottom:8px;
-        ">
-          Akses Kode TPR Kaliurang :
-        </p>
-
-        <h3 style="
-          margin-bottom:10px;
-          font-size:22px;
-        ">
-         15 Juli 2026
-        </h3>
-
-        <div id="countdownTimer" style="
-          font-size:28px;
-          font-weight:700;
-          letter-spacing:2px;
-        ">
-          00 : 00 : 00
-        </div>
-
-      </div>
 
     </div>
 
@@ -587,6 +703,33 @@ tr:last-child td{
       <div class="stat-card">
         <h2 id="belumCount">0</h2>
         <p>Belum Mengisi</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="paidCount">0</h2>
+        <p>Sudah Membayar</p>
+      </div>
+
+    </div>
+
+    <div class="payment-panel">
+
+      <div class="payment-card">
+        <h2>Pembayaran Villa</h2>
+        <p>
+          Akses pembayaran hanya untuk peserta yang memilih mengikuti.
+          Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.
+        </p>
+        <button class="btn-primary" onclick="openPaymentModal(this)">
+          Buka Akses Pembayaran
+        </button>
+      </div>
+
+      <div class="payment-card">
+        <h2>Sudah Membayar</h2>
+        <div id="paidPreviewList" class="paid-mini-list">
+          <span class="empty-paid">Belum ada nama yang ditandai membayar.</span>
+        </div>
       </div>
 
     </div>
@@ -728,6 +871,7 @@ tr:last-child td{
               <th>No</th>
               <th>Nama</th>
               <th>Status</th>
+              <th>Pembayaran</th>
             </tr>
           </thead>
 
@@ -742,32 +886,57 @@ tr:last-child td{
 
 </div>
 
-<!-- MODAL PILIH TPR -->
-<div class="modal hidden" id="tprModal">
+<!-- PEMBAYARAN -->
+<div class="modal hidden" id="paymentModal">
 
-  <div class="modal-content" style="max-width:500px;">
+  <div class="modal-content">
 
     <div class="modal-header">
-      <h2>Kode Masuk TPR</h2>
+      <h2>Akses Pembayaran</h2>
 
-      <span class="close" onclick="closeTPRModal()">
+      <span class="close" onclick="closePaymentModal()">
         &times;
       </span>
     </div>
 
     <div class="modal-body">
 
-      <div class="form-group">
-        <label>Pilih Nama Peserta</label>
+      <div class="payment-layout">
 
-        <select id="tprNama">
-          <option value="">Pilih Nama</option>
-        </select>
+        <div>
+
+          <div class="form-group">
+            <label>Pilih Nama Peserta</label>
+
+            <select id="paymentNama">
+              <option value="">Pilih Nama</option>
+            </select>
+          </div>
+
+          <div class="payment-note">
+            Pembayaran Bisa dilakukan hanya kepada siswa yang terdaftar Mengikuti Pembayaran Villa sebesar <strong>Rp 50.000</strong>
+          </div>
+
+          <div class="payment-actions">
+            <button class="btn-primary" onclick="openBarcodeModal()">
+              Buka Barcode
+            </button>
+
+            <button class="btn-secondary" onclick="closePaymentModal()">
+              Tutup
+            </button>
+          </div>
+
+        </div>
+
+        <div>
+          <label>Nama yang Sudah Membayar</label>
+          <div id="paidFullList" class="paid-list">
+            <div class="empty-paid">Belum ada nama yang ditandai membayar.</div>
+          </div>
+        </div>
+
       </div>
-
-      <button class="submit-btn" onclick="showTPRCard()">
-        Tampilkan Kode
-      </button>
 
     </div>
 
@@ -775,111 +944,53 @@ tr:last-child td{
 
 </div>
 
-<!-- KARTU TPR -->
-<div class="modal hidden" id="tprCardModal">
+<!-- BARCODE PEMBAYARAN -->
+<div class="modal hidden" id="barcodeModal">
 
-  <div class="modal-content" style="max-width:600px;">
+  <div class="modal-content" style="max-width:560px;">
 
     <div class="modal-header">
-      <h2>Surat Masuk TPR Kaliurang</h2>
+      <h2>Barcode Pembayaran</h2>
 
-      <span class="close" onclick="closeTPRCard()">
+      <span class="close" onclick="closeBarcodeModal()">
         &times;
       </span>
     </div>
 
     <div class="modal-body">
 
-      <div style="
-        border:2px dashed #3b82f6;
-        border-radius:24px;
-        padding:30px;
-        background:#f8fbff;
-      ">
-
-        <h2 style="
-          text-align:center;
-          color:#1e3a8a;
-          margin-bottom:25px;
-        ">
-          TPR KALIURANG
-        </h2>
-
-        <p style="margin-bottom:14px;">
-          Dengan ini menyatakan bahwa:
-        </p>
-
-        <h1 id="tprNamaText" style="
-          font-size:34px;
-          color:#111827;
-          margin-bottom:20px;
-        ">
-          -
-        </h1>
-
-        <p style="
-          color:#374151;
-          line-height:1.8;
-          margin-bottom:25px;
-        ">
-          Terdaftar sebagai peserta resmi kegiatan villa dan
-          diperbolehkan masuk ke area TPR Kaliurang.
-        </p>
-
-        <div style="
-          background:white;
-          border-radius:18px;
-          padding:20px;
-          border:1px solid #dbeafe;
-          margin-bottom:20px;
-        ">
-
-          <p style="
-            font-size:13px;
-            color:#6b7280;
-            margin-bottom:8px;
-          ">
-            KODE MASUK
+      <div class="barcode-box" id="barcodeBox">
+        <div class="barcode-placeholder">
+          <h3>Barcode belum dipasang</h3>
+          <p>
+            Setelah barcode diberikan, simpan gambarnya di folder ini lalu isi nama filenya pada
+            BARCODE_IMAGE_URL di bagian script.
           </p>
-
-          <h2 id="tprCode" style="
-            letter-spacing:3px;
-            color:#2563eb;
-            font-size:28px;
-          ">
-            -
-          </h2>
-
         </div>
-
-        <div style="
-          display:flex;
-          align-items:center;
-          gap:10px;
-          background:#dcfce7;
-          color:#166534;
-          padding:14px 18px;
-          border-radius:14px;
-          font-weight:600;
-        ">
-
-          <span style="font-size:22px;">✅</span>
-
-          <span>Kode Aktif & Terverifikasi</span>
-
-        </div>
-
       </div>
+
+      <p id="barcodeNameText" style="
+        margin-top:16px;
+        color:#374151;
+        text-align:center;
+        line-height:1.7;
+      ">
+        -
+      </p>
 
     </div>
 
   </div>
 
 </div>
+
+
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzvfsWVtRmtRMjoOvcmDl-Ee2mX5GJRyI_-ylfahsF_0IoBQCUyOoJ-R9k-HEtP0R7y0g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyYB7R9KsSdx_D83epheVEMIhN9-z8NgFm0n65rt-kZg9BsacfC7H2dTU_ozXLHQJ5iAg/exec";
+const BARCODE_IMAGE_URL = "https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg";
+let latestVillaData = [];
 
 /* =========================
    MODAL
@@ -1044,7 +1155,81 @@ function closeTableModal(){
     .classList.add('hidden');
 }
 
-async function openTPRModal(button){
+function normalizeName(name){
+  return String(name || '').trim().toLowerCase();
+}
+
+function getPaymentValue(item){
+  return String(
+    item.pembayaran ||
+    item.statusPembayaran ||
+    item.status_pembayaran ||
+    item['Status Pembayaran'] ||
+    item['status pembayaran'] ||
+    item.bayar ||
+    item.lunas ||
+    ''
+  ).trim();
+}
+
+function isPaidItem(item){
+  const paymentValue = normalizeName(getPaymentValue(item));
+
+  return [
+    'lunas',
+    'sudah',
+    'sudah membayar',
+    'paid',
+    'ya',
+    'yes',
+    'done'
+  ].includes(paymentValue);
+}
+
+function getPaidNames(data = latestVillaData){
+  return data
+    .filter(item => isPaidItem(item))
+    .map(item => item.nama)
+    .filter(Boolean);
+}
+
+function renderPaidLists(data = latestVillaData){
+  const previewList = document.getElementById('paidPreviewList');
+  const fullList = document.getElementById('paidFullList');
+  const paidCount = document.getElementById('paidCount');
+  const paidNames = getPaidNames(data);
+
+  if(paidCount){
+    paidCount.innerText = paidNames.length;
+  }
+
+  if(!previewList || !fullList){
+    return;
+  }
+
+  if(paidNames.length === 0){
+    previewList.innerHTML =
+      '<span class="empty-paid">Belum ada nama yang ditandai membayar.</span>';
+    fullList.innerHTML =
+      '<div class="empty-paid">Belum ada nama yang ditandai membayar.</div>';
+    return;
+  }
+
+  previewList.innerHTML = paidNames
+    .map(name => `<span class="paid-chip">${name}</span>`)
+    .join('');
+
+  fullList.innerHTML = paidNames
+    .map((name, index) => `
+      <div class="paid-row">
+        <span>${index + 1}. ${name}</span>
+        <span class="status mengikuti">Lunas</span>
+      </div>
+    `)
+    .join('');
+}
+
+async function openPaymentModal(button){
 
   setButtonLoading(button, true, 'Memuat...');
 
@@ -1052,27 +1237,27 @@ async function openTPRModal(button){
 
     const response = await fetch(API_URL);
     const data = await response.json();
-
-    const select = document.getElementById('tprNama');
+    latestVillaData = data;
+    const select = document.getElementById('paymentNama');
 
     select.innerHTML =
       '<option value="">Pilih Nama</option>';
 
     data.forEach(item => {
-
       if(item.status === 'Mengikuti'){
+        const paidLabel = isPaidItem(item) ? ' - sudah membayar' : '';
 
         select.innerHTML += `
           <option value="${item.nama}">
-            ${item.nama}
+            ${item.nama}${paidLabel}
           </option>
         `;
-
       }
-
     });
 
-    document.getElementById('tprModal')
+    renderPaidLists(data);
+
+    document.getElementById('paymentModal')
       .classList.remove('hidden');
 
   }catch(error){
@@ -1081,7 +1266,7 @@ async function openTPRModal(button){
 
     showDialog({
       title:'Gagal',
-      message:'Tidak dapat memuat data peserta.',
+      message:'Tidak dapat memuat data pembayaran.',
       type:'info',
       confirmText:'Tutup'
     });
@@ -1092,62 +1277,58 @@ async function openTPRModal(button){
 
 }
 
-function closeTPRModal(){
-
-  document.getElementById('tprModal')
+function closePaymentModal(){
+  document.getElementById('paymentModal')
     .classList.add('hidden');
-
 }
 
-function closeTPRCard(){
-
-  document.getElementById('tprCardModal')
-    .classList.add('hidden');
-
-}
-
-function generateTPRCode(nama){
-
-  const random =
-    Math.floor(Math.random() * 9000) + 1000;
-
-  return 'TPR-' +
-    nama.substring(0,3).toUpperCase() +
-    '-' +
-    random;
-
-}
-
-function showTPRCard(){
-
-  const nama =
-    document.getElementById('tprNama').value;
+function openBarcodeModal(){
+  const nama = document.getElementById('paymentNama').value;
 
   if(!nama){
-
     showDialog({
       title:'Nama Belum Dipilih',
-      message:'Silakan pilih nama terlebih dahulu.',
+      message:'Silakan pilih nama peserta terlebih dahulu.',
       type:'info',
       confirmText:'Tutup'
     });
 
     return;
-
   }
 
-  const kode = generateTPRCode(nama);
+  const barcodeBox = document.getElementById('barcodeBox');
+  const barcodeNameText = document.getElementById('barcodeNameText');
 
-  document.getElementById('tprNamaText')
-    .textContent = nama;
+  barcodeNameText.textContent =
+    `Pembayaran untuk: ${nama}`;
 
-  document.getElementById('tprCode')
-    .textContent = kode;
+  if(BARCODE_IMAGE_URL){
+    barcodeBox.innerHTML = `
+      <img src="${BARCODE_IMAGE_URL}" alt="Barcode pembayaran">
+    `;
+  }
+  else{
+    barcodeBox.innerHTML = `
+      <div class="barcode-placeholder">
+        <h3>Barcode belum dipasang</h3>
+        <p>
+          Simpan file barcode di folder Data Villa, lalu isi BARCODE_IMAGE_URL
+          dengan nama file tersebut.
+        </p>
+      </div>
+    `;
+  }
 
-  document.getElementById('tprCardModal')
+  document.getElementById('barcodeModal')
     .classList.remove('hidden');
-
 }
+
+function closeBarcodeModal(){
+  document.getElementById('barcodeModal')
+    .classList.add('hidden');
+}
+
+
 
 /* =========================
    LOAD DATA
@@ -1170,6 +1351,7 @@ async function loadData(){
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
+    latestVillaData = data;
 
     const savedName = localStorage.getItem('villa_finalisasi_nama');
     if(savedName){
@@ -1208,6 +1390,11 @@ async function loadData(){
               ${statusText}
             </span>
           </td>
+          <td>
+            <span class="status ${isPaidItem(item) ? 'mengikuti' : 'belum'}">
+              ${isPaidItem(item) ? 'Lunas' : '-'}
+            </span>
+          </td>
         </tr>
       `;
 
@@ -1224,12 +1411,13 @@ async function loadData(){
     document.getElementById('ikutCount').innerText = ikut;
     document.getElementById('tidakCount').innerText = tidak;
     document.getElementById('belumCount').innerText = belum;
+    renderPaidLists(data);
   }
   catch(error){
     console.error(error);
     tableBody.innerHTML = `
       <tr>
-        <td colspan="3" style="text-align:center;padding:20px;color:#6b7280;">
+        <td colspan="4" style="text-align:center;padding:20px;color:#6b7280;">
           Gagal memuat data. Silakan coba lagi.
         </td>
       </tr>
@@ -1358,82 +1546,7 @@ function setButtonLoading(button, loading, text = null){
   }
 }
 
-const TPR_OPEN_DATE =
-  new Date('2026-07-15T14:00:00+07:00');
 
-function updateCountdown(){
-
-  const now = new Date().getTime();
-
-  const distance =
-    TPR_OPEN_DATE.getTime() - now;
-
-  const countdown =
-    document.getElementById('countdownTimer');
-
-  const button =
-    document.getElementById('tprButton');
-
-  if(distance <= 0){
-
-    countdown.innerHTML = 'AKSES DIBUKA';
-
-    button.disabled = false;
-
-    button.style.opacity = '1';
-
-    return;
-
-  }
-
-  button.disabled = true;
-
-  button.style.opacity = '.6';
-
-  const days =
-    Math.floor(distance / (1000 * 60 * 60 * 24));
-
-  const hours =
-    Math.floor((distance % (1000 * 60 * 60 * 24))
-    / (1000 * 60 * 60));
-
-  const minutes =
-    Math.floor((distance % (1000 * 60 * 60))
-    / (1000 * 60));
-
-  const seconds =
-    Math.floor((distance % (1000 * 60))
-    / 1000);
-
-  countdown.innerHTML =
-    `${days} : ${hours} : ${minutes} : ${seconds}`;
-
-}
-
-setInterval(updateCountdown, 1000);
-
-updateCountdown();
-
-async function handleTPRAccess(button){
-
-  const now = new Date();
-
-  if(now < TPR_OPEN_DATE){
-
-    showDialog({
-      title:'Akses Belum Dibuka',
-      message:'Kode TPR baru dapat dibuka pada 15 Juli 2026 pukul 14.00 WIB.',
-      type:'info',
-      confirmText:'Tutup'
-    });
-
-    return;
-
-  }
-
-  openTPRModal(button);
-
-}
 
 </script>
 
