@@ -1244,12 +1244,10 @@ async function openPaymentModal(button){
       '<option value="">Pilih Nama</option>';
 
     data.forEach(item => {
-      if(item.status === 'Mengikuti'){
-        const paidLabel = isPaidItem(item) ? ' - sudah membayar' : '';
-
+      if(item.status === 'Mengikuti' && !isPaidItem(item)){
         select.innerHTML += `
           <option value="${item.nama}">
-            ${item.nama}${paidLabel}
+            ${item.nama}
           </option>
         `;
       }
