@@ -81,6 +81,35 @@ body::after{
   padding:62px 0 36px;
 }
 
+.admin-link-wrap{
+  display:flex;
+  justify-content:flex-end;
+  margin:22px 0 -8px;
+}
+
+.admin-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 15px;
+  border-radius:12px;
+  background:#fff;
+  color:var(--navy);
+  border:1px solid #d0d5dd;
+  box-shadow:0 10px 24px rgba(16,32,51,.08);
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
+  transition:.2s ease;
+}
+
+.admin-link:hover{
+  transform:translateY(-2px);
+  border-color:#98a2b3;
+  box-shadow:0 14px 30px rgba(16,32,51,.12);
+}
+
 .badge{
   display:inline-flex;
   align-items:center;
@@ -1332,6 +1361,16 @@ tr:hover{
     padding:24px 0 18px;
   }
 
+  .admin-link{
+    position:static;
+    width:100%;
+    margin-bottom:14px;
+  }
+
+  .admin-link-wrap{
+    margin:22px 0 8px;
+  }
+
   .hero h1{
     font-size:clamp(38px,13vw,54px);
   }
@@ -1381,16 +1420,22 @@ tr:hover{
 
   <div class="hero">
 
-    <div class="badge">
+    <div class="badge" id="siteBadge">
       Data ini di awasi Pengurus kelas 12G
     </div>
 
-    <h1>Villa Exsociothree</h1>
+    <h1 id="siteTitle">Villa Exsociothree</h1>
 
-    <p>
+    <p id="siteDescription">
       Silahkan lakukan pendataan keikutsertaan acara villa.
       Pastikan data yang dikirim sudah benar sebelum dikirim ke pusat.
     </p>
+
+    <div class="admin-link-wrap">
+      <a class="admin-link" href="admin.html">
+        Login Admin
+      </a>
+    </div>
 
     <div class="button-group">
 
@@ -1453,8 +1498,8 @@ tr:hover{
     <div class="payment-panel">
 
       <div class="payment-card">
-        <h2>Pembayaran Villa</h2>
-        <p>
+        <h2 id="paymentTitle">Pembayaran Villa</h2>
+        <p id="paymentDescription">
           Akses pembayaran hanya untuk peserta yang memilih mengikuti.
           Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.
         </p>
@@ -1727,10 +1772,80 @@ tr:hover{
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyYB7R9KsSdx_D83epheVEMIhN9-z8NgFm0n65rt-kZg9BsacfC7H2dTU_ozXLHQJ5iAg/exec";
-const BARCODE_IMAGE_URL = "https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg";
-const FORM_DEADLINE = new Date('2026-07-05T23:59:59+07:00');
-const PAYMENT_DEADLINE = new Date('2026-07-12T23:59:59+07:00');
+const SITE_SETTINGS_KEY = 'villa_site_settings';
+const DEFAULT_SITE_SETTINGS = {
+  badge:'Data ini di awasi Pengurus kelas 12G',
+  title:'Villa Exsociothree',
+  description:'Silahkan lakukan pendataan keikutsertaan acara villa. Pastikan data yang dikirim sudah benar sebelum dikirim ke pusat.',
+  paymentTitle:'Pembayaran Villa',
+  paymentDescription:'Akses pembayaran hanya untuk peserta yang memilih mengikuti. Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.',
+  footer:'© exsociothree 2026. All Right Reserved.',
+  barcodeUrl:'https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg',
+  formDeadline:'2026-07-05T23:59:59+07:00',
+  paymentDeadline:'2026-07-12T23:59:59+07:00'
+};
+let siteSettings = loadSiteSettings();
+let BARCODE_IMAGE_URL = siteSettings.barcodeUrl;
+let FORM_DEADLINE = new Date(siteSettings.formDeadline);
+let PAYMENT_DEADLINE = new Date(siteSettings.paymentDeadline);
 let latestVillaData = [];
+
+function loadSiteSettings(){
+  try{
+    return {
+      ...DEFAULT_SITE_SETTINGS,
+      ...JSON.parse(localStorage.getItem(SITE_SETTINGS_KEY) || '{}')
+    };
+  }
+  catch(error){
+    console.error('Settings load failed:', error);
+    return {...DEFAULT_SITE_SETTINGS};
+  }
+}
+
+function formatDeadlineLabel(deadline){
+  return deadline.toLocaleString('id-ID', {
+    day:'numeric',
+    month:'long',
+    year:'numeric',
+    hour:'2-digit',
+    minute:'2-digit',
+    timeZone:'Asia/Jakarta',
+    timeZoneName:'short'
+  });
+}
+
+function setTextById(id, value){
+  const element = document.getElementById(id);
+
+  if(element){
+    element.textContent = value;
+    return;
+  }
+
+  if(id === 'siteFooter'){
+    const footer = document.querySelector('.footer');
+
+    if(footer){
+      footer.textContent = value;
+    }
+  }
+}
+
+function applySiteSettings(){
+  siteSettings = loadSiteSettings();
+  BARCODE_IMAGE_URL = siteSettings.barcodeUrl;
+  FORM_DEADLINE = new Date(siteSettings.formDeadline);
+  PAYMENT_DEADLINE = new Date(siteSettings.paymentDeadline);
+
+  setTextById('siteBadge', siteSettings.badge);
+  setTextById('siteTitle', siteSettings.title);
+  setTextById('siteDescription', siteSettings.description);
+  setTextById('paymentTitle', siteSettings.paymentTitle);
+  setTextById('paymentDescription', siteSettings.paymentDescription);
+  setTextById('siteFooter', siteSettings.footer);
+  updateDeadlineUI();
+}
 
 function isDeadlineClosed(deadline){
   return Date.now() > deadline.getTime();
@@ -1793,7 +1908,7 @@ function updateDeadlineUI(){
     'formCountdown',
     'formDeadlineStatus',
     FORM_DEADLINE,
-    'Ditutup 5 Juli 2026, 23:59 WIB',
+    `Ditutup ${formatDeadlineLabel(FORM_DEADLINE)}`,
     'Akses isi pendataan sudah ditutup.'
   );
 
@@ -1802,7 +1917,7 @@ function updateDeadlineUI(){
     'paymentCountdown',
     'paymentDeadlineStatus',
     PAYMENT_DEADLINE,
-    'Ditutup 12 Juli 2026, 23:59 WIB',
+    `Ditutup ${formatDeadlineLabel(PAYMENT_DEADLINE)}`,
     'Akses pembayaran sudah ditutup.'
   );
 
@@ -1819,7 +1934,7 @@ async function openFormModal(button){
     updateDeadlineUI();
     await showDialog({
       title:'Pendataan Ditutup',
-      message:'Akses isi pendataan sudah ditutup pada 5 Juli 2026 pukul 23:59 WIB.',
+      message:`Akses isi pendataan sudah ditutup pada ${formatDeadlineLabel(FORM_DEADLINE)}.`,
       type:'info',
       confirmText:'Tutup'
     });
@@ -2063,7 +2178,7 @@ async function openPaymentModal(button){
     updateDeadlineUI();
     await showDialog({
       title:'Pembayaran Ditutup',
-      message:'Akses pembayaran sudah ditutup pada 12 Juli 2026 pukul 23:59 WIB.',
+      message:`Akses pembayaran sudah ditutup pada ${formatDeadlineLabel(PAYMENT_DEADLINE)}.`,
       type:'info',
       confirmText:'Tutup'
     });
@@ -2124,7 +2239,7 @@ function openBarcodeModal(){
     updateDeadlineUI();
     showDialog({
       title:'Pembayaran Ditutup',
-      message:'Akses barcode pembayaran sudah ditutup pada 12 Juli 2026 pukul 23:59 WIB.',
+      message:`Akses barcode pembayaran sudah ditutup pada ${formatDeadlineLabel(PAYMENT_DEADLINE)}.`,
       type:'info',
       confirmText:'Tutup'
     });
@@ -2278,7 +2393,7 @@ async function loadData(){
 
 document.addEventListener('DOMContentLoaded', async () => {
   const pageLoader = document.getElementById('pageLoader');
-  updateDeadlineUI();
+  applySiteSettings();
   setInterval(updateDeadlineUI, 1000);
   pageLoader.style.display = 'flex';
   await loadData();
@@ -2295,7 +2410,7 @@ async function submitData(button){
     updateDeadlineUI();
     await showDialog({
       title:'Pendataan Ditutup',
-      message:'Pengiriman pendataan sudah ditutup pada 5 Juli 2026 pukul 23:59 WIB.',
+      message:`Pengiriman pendataan sudah ditutup pada ${formatDeadlineLabel(FORM_DEADLINE)}.`,
       type:'info',
       confirmText:'Tutup'
     });
