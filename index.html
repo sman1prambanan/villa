@@ -986,8 +986,91 @@ body::after{
   margin-top:28px;
 }
 
+.deadline-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:24px;
+}
+
+.deadline-card{
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px 20px;
+  box-shadow:var(--shadow);
+}
+
+.deadline-card::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:5px;
+  background:linear-gradient(180deg,var(--brand),var(--brand-2));
+}
+
+.deadline-card:nth-child(2)::before{
+  background:linear-gradient(180deg,#f59e0b,#d97706);
+}
+
+.deadline-label{
+  display:block;
+  color:#667085;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.deadline-card strong{
+  display:block;
+  color:var(--navy);
+  font-size:clamp(22px,4vw,32px);
+  line-height:1.1;
+  margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:0;
+}
+
+.deadline-format{
+  display:block;
+  color:#98a2b3;
+  font-size:11px;
+  font-weight:600;
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+
+.deadline-card small{
+  display:block;
+  color:#667085;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.deadline-card.closed{
+  background:#fff7f7;
+  border-color:#fecaca;
+}
+
+.deadline-card.closed::before{
+  background:linear-gradient(180deg,#ef4444,#dc2626);
+}
+
+.deadline-card.closed strong{
+  color:#b42318;
+}
+
 button{
   border-radius:12px;
+}
+
+button:disabled{
+  cursor:not-allowed;
+  opacity:.62;
+  transform:none !important;
+  box-shadow:none !important;
 }
 
 .btn-primary,
@@ -1228,6 +1311,10 @@ tr:hover{
   .payment-panel{
     grid-template-columns:1fr;
   }
+
+  .deadline-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:768px){
@@ -1307,11 +1394,11 @@ tr:hover{
 
     <div class="button-group">
 
-      <button class="btn-primary" onclick="openPaymentModal(this)">
+      <button id="openPaymentButton" class="btn-primary" data-access="payment" onclick="openPaymentModal(this)">
         Akses Pembayaran
       </button>
       
-      <button class="btn-primary" onclick="openFormModal(this)">
+      <button id="openFormButton" class="btn-primary" data-access="form" onclick="openFormModal(this)">
         Isi Pendataan
       </button>
 
@@ -1319,6 +1406,24 @@ tr:hover{
         Lihat Daftar Pendataan
       </button>
       
+    </div>
+
+    <div class="deadline-grid">
+
+      <div class="deadline-card" id="formDeadlineCard">
+        <span class="deadline-label">Batas Isi Pendataan</span>
+        <strong id="formCountdown">Menghitung...</strong>
+        <span class="deadline-format">Hari : Jam : Menit : Detik</span>
+        <small id="formDeadlineStatus">Ditutup 5 Juli 2026, 23:59 WIB</small>
+      </div>
+
+      <div class="deadline-card" id="paymentDeadlineCard">
+        <span class="deadline-label">Batas Pembayaran</span>
+        <strong id="paymentCountdown">Menghitung...</strong>
+        <span class="deadline-format">Hari : Jam : Menit : Detik</span>
+        <small id="paymentDeadlineStatus">Ditutup 12 Juli 2026, 23:59 WIB</small>
+      </div>
+
     </div>
 
     <div class="stats">
@@ -1353,7 +1458,7 @@ tr:hover{
           Akses pembayaran hanya untuk peserta yang memilih mengikuti.
           Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.
         </p>
-        <button class="btn-primary" onclick="openPaymentModal(this)">
+        <button id="openPaymentPanelButton" class="btn-primary" data-access="payment" onclick="openPaymentModal(this)">
           Buka Akses Pembayaran
         </button>
       </div>
@@ -1416,7 +1521,7 @@ tr:hover{
         </label>
       </div>
 
-      <button class="submit-btn" onclick="submitData(this)">
+      <button class="submit-btn" data-access="form" onclick="submitData(this)">
         Kirim Pendataan
       </button>
 
@@ -1551,7 +1656,7 @@ tr:hover{
           </div>
 
           <div class="payment-actions">
-            <button class="btn-primary" onclick="openBarcodeModal()">
+            <button class="btn-primary" data-access="payment" onclick="openBarcodeModal()">
               Buka Barcode
             </button>
 
@@ -1623,13 +1728,104 @@ tr:hover{
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyYB7R9KsSdx_D83epheVEMIhN9-z8NgFm0n65rt-kZg9BsacfC7H2dTU_ozXLHQJ5iAg/exec";
 const BARCODE_IMAGE_URL = "https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg";
+const FORM_DEADLINE = new Date('2026-07-05T23:59:59+07:00');
+const PAYMENT_DEADLINE = new Date('2026-07-12T23:59:59+07:00');
 let latestVillaData = [];
+
+function isDeadlineClosed(deadline){
+  return Date.now() > deadline.getTime();
+}
+
+function getCountdownText(deadline){
+  const distance = Math.max(0, deadline.getTime() - Date.now());
+  const totalSeconds = Math.floor(distance / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if(distance <= 0){
+    return '00:00:00:00';
+  }
+
+  return [days, hours, minutes, seconds]
+    .map(value => String(value).padStart(2, '0'))
+    .join(':');
+}
+
+function setDeadlineCardState(cardId, countdownId, statusId, deadline, openText, closedText){
+  const card = document.getElementById(cardId);
+  const countdown = document.getElementById(countdownId);
+  const status = document.getElementById(statusId);
+  const closed = isDeadlineClosed(deadline);
+
+  if(countdown){
+    countdown.textContent = getCountdownText(deadline);
+  }
+
+  if(status){
+    status.textContent = closed ? closedText : openText;
+  }
+
+  if(card){
+    card.classList.toggle('closed', closed);
+  }
+}
+
+function setAccessButtonsState(accessName, closed){
+  document
+    .querySelectorAll(`[data-access="${accessName}"]`)
+    .forEach(button => {
+      if(!button.classList.contains('button-loading')){
+        button.disabled = closed;
+      }
+
+      button.title = closed ? 'Akses sudah ditutup' : '';
+    });
+}
+
+function updateDeadlineUI(){
+  const formClosed = isDeadlineClosed(FORM_DEADLINE);
+  const paymentClosed = isDeadlineClosed(PAYMENT_DEADLINE);
+
+  setDeadlineCardState(
+    'formDeadlineCard',
+    'formCountdown',
+    'formDeadlineStatus',
+    FORM_DEADLINE,
+    'Ditutup 5 Juli 2026, 23:59 WIB',
+    'Akses isi pendataan sudah ditutup.'
+  );
+
+  setDeadlineCardState(
+    'paymentDeadlineCard',
+    'paymentCountdown',
+    'paymentDeadlineStatus',
+    PAYMENT_DEADLINE,
+    'Ditutup 12 Juli 2026, 23:59 WIB',
+    'Akses pembayaran sudah ditutup.'
+  );
+
+  setAccessButtonsState('form', formClosed);
+  setAccessButtonsState('payment', paymentClosed);
+}
 
 /* =========================
    MODAL
 ========================= */
 
 async function openFormModal(button){
+  if(isDeadlineClosed(FORM_DEADLINE)){
+    updateDeadlineUI();
+    await showDialog({
+      title:'Pendataan Ditutup',
+      message:'Akses isi pendataan sudah ditutup pada 5 Juli 2026 pukul 23:59 WIB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
   const submitButton = button;
   setButtonLoading(submitButton, true, 'Memuat...');
 
@@ -1863,6 +2059,16 @@ function renderPaidLists(data = latestVillaData){
 }
 
 async function openPaymentModal(button){
+  if(isDeadlineClosed(PAYMENT_DEADLINE)){
+    updateDeadlineUI();
+    await showDialog({
+      title:'Pembayaran Ditutup',
+      message:'Akses pembayaran sudah ditutup pada 12 Juli 2026 pukul 23:59 WIB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
 
   setButtonLoading(button, true, 'Memuat...');
 
@@ -1914,6 +2120,17 @@ function closePaymentModal(){
 }
 
 function openBarcodeModal(){
+  if(isDeadlineClosed(PAYMENT_DEADLINE)){
+    updateDeadlineUI();
+    showDialog({
+      title:'Pembayaran Ditutup',
+      message:'Akses barcode pembayaran sudah ditutup pada 12 Juli 2026 pukul 23:59 WIB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
   const nama = document.getElementById('paymentNama').value;
 
   if(!nama){
@@ -2061,8 +2278,11 @@ async function loadData(){
 
 document.addEventListener('DOMContentLoaded', async () => {
   const pageLoader = document.getElementById('pageLoader');
+  updateDeadlineUI();
+  setInterval(updateDeadlineUI, 1000);
   pageLoader.style.display = 'flex';
   await loadData();
+  updateDeadlineUI();
   pageLoader.style.display = 'none';
 });
 
@@ -2071,6 +2291,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 ========================= */
 
 async function submitData(button){
+  if(isDeadlineClosed(FORM_DEADLINE)){
+    updateDeadlineUI();
+    await showDialog({
+      title:'Pendataan Ditutup',
+      message:'Pengiriman pendataan sudah ditutup pada 5 Juli 2026 pukul 23:59 WIB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    closeFormModal();
+    return;
+  }
+
   const submitButton = button;
   const originalText = submitButton.innerHTML;
   setButtonLoading(submitButton, true, 'Mengirim...');
@@ -2174,6 +2406,8 @@ function setButtonLoading(button, loading, text = null){
     } else {
       button.innerHTML = button.innerHTML.replace(/<span class="button-spinner"><\/span>/, '');
     }
+
+    updateDeadlineUI();
   }
 }
 
