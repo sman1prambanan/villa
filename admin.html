@@ -345,6 +345,36 @@ tr:last-child td{
 .wait{background:#667085;}
 .paid{background:#d97706;}
 
+.pending{background:#7c3aed;}
+
+.notice{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:16px;
+  padding:14px 16px;
+  border:1px solid #ddd6fe;
+  border-radius:14px;
+  background:#f5f3ff;
+  color:#4c1d95;
+}
+
+.notice strong{
+  display:block;
+  color:#3b0764;
+}
+
+.proof-link{
+  color:#0f766e;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.proof-link:hover{
+  text-decoration:underline;
+}
+
 .toast{
   position:fixed;
   right:18px;
@@ -433,6 +463,15 @@ tr:last-child td{
       <div class="metric"><span>Tidak Mengikuti</span><strong id="metricTidak">0</strong></div>
       <div class="metric"><span>Belum Mengisi</span><strong id="metricBelum">0</strong></div>
       <div class="metric"><span>Sudah Membayar</span><strong id="metricPaid">0</strong></div>
+      <div class="metric"><span>Menunggu Konfirmasi</span><strong id="metricPending">0</strong></div>
+    </div>
+
+    <div id="paymentNotice" class="notice hidden">
+      <div>
+        <strong>Permintaan pembayaran baru</strong>
+        <span id="paymentNoticeText">Ada bukti pembayaran yang perlu dikonfirmasi.</span>
+      </div>
+      <button class="btn-primary" onclick="showTab('data')">Cek Data</button>
     </div>
 
     <div class="card">
@@ -510,7 +549,7 @@ tr:last-child td{
       <div class="card-head">
         <div>
           <h2>Data Siswa</h2>
-          <p>Edit status, tandai pembayaran, reset pendataan, atau coba hapus baris jika backend mendukung.</p>
+          <p>Edit status, cek bukti pembayaran, konfirmasi lunas, reset pendataan, atau hapus baris.</p>
         </div>
       </div>
 
@@ -531,11 +570,12 @@ tr:last-child td{
               <th>Status Saat Ini</th>
               <th>Edit Status</th>
               <th>Pembayaran</th>
+              <th>Bukti</th>
               <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="adminTableBody">
-            <tr><td colspan="6">Memuat data...</td></tr>
+            <tr><td colspan="7">Memuat data...</td></tr>
           </tbody>
         </table>
       </div>
@@ -546,7 +586,7 @@ tr:last-child td{
 <div id="toast" class="toast hidden"></div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbw2bwdZSRg_TIIftdPJtBmlEryVFZQvUSa3RAn0apUrJ2V0mYlr_1oEmIWdUV-t1jNR2g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzv_QKgYEb-xoXFLy3NGSH4rv-5DY4fKb2HYbKhLHBfIdMsdwMKCQfa9qSvlH0UD60tSw/exec";
 const ADMIN_PASSWORD = "VIGARA@123";
 const SESSION_KEY = "villa_admin_logged_in";
 const DEFAULT_SETTINGS = {
@@ -562,6 +602,7 @@ const DEFAULT_SETTINGS = {
 };
 
 let rows = [];
+let previousPendingPaymentCount = null;
 
 function showToast(message){
   const toast = document.getElementById("toast");
@@ -708,6 +749,10 @@ function isPaidItem(item){
   return ["lunas", "sudah", "sudah membayar", "paid", "ya", "yes", "done"].includes(getPaymentValue(item).toLowerCase());
 }
 
+function isPendingPaymentItem(item){
+  return ["menunggu", "pending", "menunggu konfirmasi", "perlu konfirmasi"].includes(getPaymentValue(item).toLowerCase());
+}
+
 function getStatusClass(status){
   if(status === "Mengikuti") return "ok";
   if(status === "Tidak Mengikuti") return "no";
@@ -716,7 +761,7 @@ function getStatusClass(status){
 
 async function refreshData(){
   const body = document.getElementById("adminTableBody");
-  body.innerHTML = '<tr><td colspan="6">Memuat data...</td></tr>';
+  body.innerHTML = '<tr><td colspan="7">Memuat data...</td></tr>';
 
   try{
     const response = await fetch(`${API_URL}?t=${Date.now()}`);
@@ -727,7 +772,7 @@ async function refreshData(){
   }
   catch(error){
     console.error(error);
-    body.innerHTML = '<tr><td colspan="6">Gagal memuat data dari API.</td></tr>';
+    body.innerHTML = '<tr><td colspan="7">Gagal memuat data dari API.</td></tr>';
     showToast("Gagal memuat data.");
   }
 }
@@ -737,11 +782,31 @@ function updateMetrics(){
   const tidak = rows.filter(item => item.status === "Tidak Mengikuti").length;
   const belum = rows.filter(item => !item.status).length;
   const paid = rows.filter(item => isPaidItem(item)).length;
+  const pending = rows.filter(item => isPendingPaymentItem(item)).length;
 
   document.getElementById("metricIkut").textContent = ikut;
   document.getElementById("metricTidak").textContent = tidak;
   document.getElementById("metricBelum").textContent = belum;
   document.getElementById("metricPaid").textContent = paid;
+  document.getElementById("metricPending").textContent = pending;
+
+  const notice = document.getElementById("paymentNotice");
+  const noticeText = document.getElementById("paymentNoticeText");
+  notice.classList.toggle("hidden", pending === 0);
+  noticeText.textContent = pending > 0
+    ? `${pending} bukti pembayaran menunggu konfirmasi admin.`
+    : "Tidak ada bukti pembayaran yang menunggu konfirmasi.";
+
+  if(previousPendingPaymentCount !== null && pending > previousPendingPaymentCount){
+    const message = `${pending} bukti pembayaran menunggu konfirmasi.`;
+    showToast(message);
+
+    if("Notification" in window && Notification.permission === "granted"){
+      new Notification("Permintaan pembayaran baru", {body:message});
+    }
+  }
+
+  previousPendingPaymentCount = pending;
 }
 
 function renderTable(){
@@ -750,7 +815,7 @@ function renderTable(){
   const filteredRows = rows.filter(item => String(item.nama || "").toLowerCase().includes(keyword));
 
   if(filteredRows.length === 0){
-    body.innerHTML = '<tr><td colspan="6">Tidak ada data yang cocok.</td></tr>';
+    body.innerHTML = '<tr><td colspan="7">Tidak ada data yang cocok.</td></tr>';
     return;
   }
 
@@ -758,7 +823,10 @@ function renderTable(){
     const status = item.status || "";
     const statusText = status || "Belum Mengisi";
     const paid = isPaidItem(item);
+    const pending = isPendingPaymentItem(item);
+    const proofUrl = item.buktiPembayaran || item.bukti || item.proofUrl || "";
     const safeName = encodeURIComponent(String(item.nama || ""));
+    const paymentValue = getPaymentValue(item);
 
     return `
       <tr>
@@ -776,13 +844,19 @@ function renderTable(){
         </td>
         <td>
           <select id="payment-${index}">
-            <option value="" ${!paid ? "selected" : ""}>Belum Lunas</option>
+            <option value="" ${!paid && !pending ? "selected" : ""}>Belum Lunas</option>
+            <option value="MENUNGGU" ${pending ? "selected" : ""}>Menunggu Konfirmasi</option>
             <option value="Lunas" ${paid ? "selected" : ""}>Lunas</option>
           </select>
         </td>
         <td>
+          <span class="status-pill ${paid ? "ok" : pending ? "pending" : "wait"}">${paymentValue || "Belum"}</span>
+          ${proofUrl ? `<br><a class="proof-link" href="${proofUrl}" target="_blank" rel="noopener">Lihat Bukti</a>` : ""}
+        </td>
+        <td>
           <div class="row-actions">
             <button class="btn-primary" onclick="saveRow('${safeName}', ${index})">Simpan</button>
+            ${pending ? `<button class="btn-primary" onclick="confirmPayment('${safeName}')">Konfirmasi Lunas</button>` : ""}
             <button class="btn-secondary" onclick="resetRow('${safeName}')">Reset</button>
             <button class="btn-danger" onclick="deleteRow('${safeName}')">Hapus Baris</button>
           </div>
@@ -790,6 +864,21 @@ function renderTable(){
       </tr>
     `;
   }).join("");
+}
+
+async function confirmPayment(nama){
+  nama = decodeURIComponent(nama);
+  if(!confirm(`Konfirmasi pembayaran ${nama} sebagai Lunas?`)) return;
+
+  try{
+    const result = await postData({action:"confirmPayment", nama});
+    showToast(result.message || "Pembayaran berhasil dikonfirmasi.");
+    await refreshData();
+  }
+  catch(error){
+    console.error(error);
+    showToast("Gagal mengkonfirmasi pembayaran.");
+  }
 }
 
 async function postData(payload){
