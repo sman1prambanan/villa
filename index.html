@@ -350,6 +350,27 @@ input:focus-visible{
   box-shadow:0 12px 30px rgba(15,118,110,.08);
 }
 
+.proof-upload{
+  margin-top:14px;
+  display:grid;
+  gap:10px;
+}
+
+.proof-upload input{
+  width:100%;
+  padding:13px;
+  border:1px solid #cbd5e1;
+  border-radius:14px;
+  background:#fff;
+  color:#0f172a;
+}
+
+.proof-help{
+  color:#475569;
+  font-size:13px;
+  line-height:1.6;
+}
+
 .paid-list{
   display:grid;
   gap:10px;
@@ -1701,11 +1722,15 @@ tr:hover{
           </div>
 
           <div class="payment-actions">
-            <button class="btn-primary" data-access="payment" onclick="openBarcodeModal()">
+            <button type="button" class="btn-primary" data-access="payment" onclick="openBarcodeModal()">
               Buka Barcode
             </button>
 
-            <button class="btn-secondary" onclick="closePaymentModal()">
+            <button type="button" class="btn-primary" data-access="payment" onclick="submitPaymentConfirmation(this)">
+              Konfirmasi Pembayaran
+            </button>
+
+            <button type="button" class="btn-secondary" onclick="closePaymentModal()">
               Tutup
             </button>
           </div>
@@ -1771,7 +1796,7 @@ tr:hover{
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbw2bwdZSRg_TIIftdPJtBmlEryVFZQvUSa3RAn0apUrJ2V0mYlr_1oEmIWdUV-t1jNR2g/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyX9PWWMfWSSKshonyJEXzIdeU_K6qNVgZeVhvDjrzapJ489WHQ0SUbO2W-WDaCZf3uaQ/exec";
 const DEFAULT_SITE_SETTINGS = {
   badge:'Data ini di awasi Pengurus kelas 12G',
   title:'Villa Exsociothree',
@@ -2132,6 +2157,15 @@ function isPaidItem(item){
   ].includes(paymentValue);
 }
 
+function isPendingPaymentItem(item){
+  return [
+    'menunggu',
+    'pending',
+    'menunggu konfirmasi',
+    'perlu konfirmasi'
+  ].includes(normalizeName(getPaymentValue(item)));
+}
+
 function getPaidNames(data = latestVillaData){
   return data
     .filter(item => isPaidItem(item))
@@ -2200,7 +2234,7 @@ async function openPaymentModal(button){
       '<option value="">Pilih Nama</option>';
 
     data.forEach(item => {
-      if(item.status === 'Mengikuti' && !isPaidItem(item)){
+      if(item.status === 'Mengikuti' && !isPaidItem(item) && !isPendingPaymentItem(item)){
         select.innerHTML += `
           <option value="${item.nama}">
             ${item.nama}
@@ -2210,6 +2244,12 @@ async function openPaymentModal(button){
     });
 
     renderPaidLists(data);
+
+    // Remove old event listener if exists
+    select.removeEventListener('change', handlePaymentNameChange);
+    
+    // Add event listener untuk update status saat nama dipilih
+    select.addEventListener('change', handlePaymentNameChange);
 
     document.getElementById('paymentModal')
       .classList.remove('hidden');
@@ -2231,9 +2271,181 @@ async function openPaymentModal(button){
 
 }
 
+async function handlePaymentNameChange(event){
+  const nama = event.target.value;
+
+  if(!nama){
+    return;
+  }
+
+  try{
+    const response = await fetch(API_URL, {
+      method:'POST',
+      body:JSON.stringify({
+        action:'updatePaymentStatus',
+        nama,
+        status:'Menunggu Konfirmasi'
+      })
+    });
+    
+    const result = await response.json();
+    console.log('Status pembayaran diupdate:', result);
+  }
+  catch(error){
+    console.error('Error updating payment status:', error);
+  }
+}
+
 function closePaymentModal(){
   document.getElementById('paymentModal')
     .classList.add('hidden');
+}
+
+function submitPaymentConfirmation(button){
+  const nama = document.getElementById('paymentNama').value;
+
+  if(!nama){
+    alert('Silakan pilih nama peserta terlebih dahulu.');
+    return;
+  }
+
+  // Get current date and time
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'Asia/Jakarta'
+  });
+
+  const dateTimeStr = formatter.format(now);
+  
+  // Create WhatsApp message
+  const whatsappMessage = `Halo, saya sudah melakukan transfer pembayaran villa dengan data berikut:\n\nNama: ${nama}\nTanggal & Waktu: ${dateTimeStr}`;
+  
+  // WhatsApp number to send to
+  const whatsappNumber = '6282265428224';
+  const encodedMessage = encodeURIComponent(whatsappMessage);
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+  // Open WhatsApp
+  window.open(whatsappLink, '_blank');
+  
+  // Close modal
+  closePaymentModal();
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitPaymentProof(button){
+  if(isDeadlineClosed(PAYMENT_DEADLINE)){
+    updateDeadlineUI();
+    await showDialog({
+      title:'Pembayaran Ditutup',
+      message:`Upload bukti pembayaran sudah ditutup pada ${formatDeadlineLabel(PAYMENT_DEADLINE)}.`,
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
+  const nama = document.getElementById('paymentNama').value;
+  const fileInput = document.getElementById('paymentProof');
+  const file = fileInput.files[0];
+
+  if(!nama){
+    await showDialog({
+      title:'Nama Belum Dipilih',
+      message:'Silakan pilih nama peserta terlebih dahulu.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
+  if(!file){
+    await showDialog({
+      title:'Bukti Belum Dipilih',
+      message:'Silakan pilih foto bukti pembayaran terlebih dahulu.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
+  if(!file.type.startsWith('image/')){
+    await showDialog({
+      title:'File Tidak Sesuai',
+      message:'Bukti pembayaran wajib berupa foto/gambar.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
+  if(file.size > 5 * 1024 * 1024){
+    await showDialog({
+      title:'File Terlalu Besar',
+      message:'Ukuran foto maksimal 5 MB.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+    return;
+  }
+
+  setButtonLoading(button, true, 'Mengirim...');
+
+  try{
+    const fileBase64 = await fileToBase64(file);
+    const response = await fetch(API_URL, {
+      method:'POST',
+      body:JSON.stringify({
+        action:'uploadPaymentProof',
+        nama,
+        fileName:file.name,
+        mimeType:file.type,
+        fileBase64
+      })
+    });
+    const result = await response.json();
+
+    await showDialog({
+      title:result.success ? 'Bukti Terkirim' : 'Gagal',
+      message:
+        (result.message || 'Bukti pembayaran sudah dikirim dan menunggu konfirmasi admin.') +
+        (result.error ? `\n\nDetail: ${result.error}` : ''),
+      type:'info',
+      confirmText:'Tutup'
+    });
+
+    if(result.success){
+      fileInput.value = '';
+      closePaymentModal();
+      await loadData();
+    }
+  }
+  catch(error){
+    console.error(error);
+    await showDialog({
+      title:'Kesalahan Jaringan',
+      message:'Bukti pembayaran gagal dikirim. Silakan coba lagi.',
+      type:'info',
+      confirmText:'Tutup'
+    });
+  }
+  finally{
+    setButtonLoading(button, false);
+  }
 }
 
 function openBarcodeModal(){
