@@ -350,6 +350,26 @@ input:focus-visible{
   box-shadow:0 12px 30px rgba(15,118,110,.08);
 }
 
+.payment-status-info{
+  background:#f8fafc;
+  color:#0f766e;
+  border:1px solid #a7f3d0;
+  border-radius:16px;
+  padding:14px 16px;
+  margin-top:14px;
+  line-height:1.7;
+}
+
+.payment-status-info.pending{
+  background:#fffbeb;
+  color:#92400e;
+  border-color:#fde68a;
+}
+
+.payment-status-info.hidden{
+  display:none;
+}
+
 .proof-upload{
   margin-top:14px;
   display:grid;
@@ -1721,6 +1741,8 @@ tr:hover{
             Pembayaran Bisa dilakukan hanya kepada siswa yang terdaftar Mengikuti. Untuk Proses Pembayaran Villa sebesar <strong>Rp 50.000</strong>
           </div>
 
+          <div id="paymentStatusInfo" class="payment-status-info hidden"></div>
+
           <div class="payment-actions">
             <button type="button" class="btn-primary" data-access="payment" onclick="openBarcodeModal()">
               Buka Barcode
@@ -1813,6 +1835,91 @@ let BARCODE_IMAGE_URL = siteSettings.barcodeUrl;
 let FORM_DEADLINE = new Date(siteSettings.formDeadline);
 let PAYMENT_DEADLINE = new Date(siteSettings.paymentDeadline);
 let latestVillaData = [];
+const PAYMENT_PENDING_KEY = 'villa_payment_pending_name';
+
+function getPendingPaymentName(){
+  return String(localStorage.getItem(PAYMENT_PENDING_KEY) || '').trim();
+}
+
+function setPendingPaymentName(nama){
+  if(!nama){
+    localStorage.removeItem(PAYMENT_PENDING_KEY);
+    return;
+  }
+  localStorage.setItem(PAYMENT_PENDING_KEY, String(nama).trim());
+}
+
+function clearPendingPaymentName(){
+  localStorage.removeItem(PAYMENT_PENDING_KEY);
+}
+
+window.addEventListener('beforeunload', event => {
+  if(getPendingPaymentName()){
+    event.preventDefault();
+    event.returnValue = '';
+  }
+});
+
+function updatePaymentStatus(nama, status){
+  return fetch(API_URL, {
+    method:'POST',
+    body:JSON.stringify({
+      action:'updatePaymentStatus',
+      nama,
+      status
+    })
+  }).then(response => response.json());
+}
+
+function showPaymentStatusInfo(message, type = 'info'){
+  const info = document.getElementById('paymentStatusInfo');
+  if(!info) return;
+
+  info.textContent = message;
+  info.className = `payment-status-info ${type}`;
+  info.classList.remove('hidden');
+}
+
+function hidePaymentStatusInfo(){
+  const info = document.getElementById('paymentStatusInfo');
+  if(info){
+    info.classList.add('hidden');
+  }
+}
+
+function shouldShowPendingName(item){
+  return item.status === 'Mengikuti' && !isPaidItem(item);
+}
+
+async function promptOpenBarcode(nama){
+  return await showDialog({
+    title:'Buka Barcode Pembayaran',
+    message:`Anda akan membuka barcode untuk ${nama}. Halaman akan terkunci dan Anda harus memastikan telah melakukan transfer serta mengkonfirmasi pembayaran setelahnya. Nama akan tetap terlihat pada opsi pembayaran sampai konfirmasi selesai.`,
+    type:'confirm',
+    confirmText:'Buka Barcode',
+    cancelText:'Batal'
+  });
+}
+
+async function restorePendingPayment(){
+  const pendingName = getPendingPaymentName();
+  if(!pendingName) return;
+
+  const row = latestVillaData.find(item => normalizeName(item.nama) === normalizeName(pendingName));
+  if(row && isPaidItem(row)){
+    clearPendingPaymentName();
+    return;
+  }
+
+  await showDialog({
+    title:'Pembayaran Belum Dikonfirmasi',
+    message:`Masih ada pembayaran yang menunggu konfirmasi untuk ${pendingName}. Silakan lanjutkan konfirmasi pembayaran atau tutup setelah selesai.`,
+    type:'info',
+    confirmText:'Oke'
+  });
+
+  await openPaymentModal();
+}
 
 async function loadSiteSettings(){
   try{
@@ -2225,7 +2332,7 @@ async function openPaymentModal(button){
 
   try{
 
-    const response = await fetch(`${API_URL}?t=${Date.now()}`);
+      const response = await fetch(`${API_URL}?t=${Date.now()}`);
     const data = await response.json();
     latestVillaData = data;
     const select = document.getElementById('paymentNama');
@@ -2234,7 +2341,7 @@ async function openPaymentModal(button){
       '<option value="">Pilih Nama</option>';
 
     data.forEach(item => {
-      if(item.status === 'Mengikuti' && !isPaidItem(item) && !isPendingPaymentItem(item)){
+      if(shouldShowPendingName(item)){
         select.innerHTML += `
           <option value="${item.nama}">
             ${item.nama}
@@ -2243,12 +2350,17 @@ async function openPaymentModal(button){
       }
     });
 
+    const pendingName = getPendingPaymentName();
+    if(pendingName){
+      select.value = pendingName;
+      showPaymentStatusInfo(`Masih ada pembayaran yang menunggu konfirmasi untuk ${pendingName}.`, 'pending');
+    } else {
+      hidePaymentStatusInfo();
+    }
+
     renderPaidLists(data);
 
-    // Remove old event listener if exists
     select.removeEventListener('change', handlePaymentNameChange);
-    
-    // Add event listener untuk update status saat nama dipilih
     select.addEventListener('change', handlePaymentNameChange);
 
     document.getElementById('paymentModal')
@@ -2273,43 +2385,54 @@ async function openPaymentModal(button){
 
 async function handlePaymentNameChange(event){
   const nama = event.target.value;
+  hidePaymentStatusInfo();
 
   if(!nama){
     return;
   }
 
-  try{
-    const response = await fetch(API_URL, {
-      method:'POST',
-      body:JSON.stringify({
-        action:'updatePaymentStatus',
-        nama,
-        status:'Menunggu Konfirmasi'
-      })
-    });
-    
-    const result = await response.json();
-    console.log('Status pembayaran diupdate:', result);
-  }
-  catch(error){
-    console.error('Error updating payment status:', error);
+  const pendingName = getPendingPaymentName();
+  if(pendingName && normalizeName(pendingName) === normalizeName(nama)){
+    showPaymentStatusInfo(`Nama ${nama} sedang menunggu konfirmasi pembayaran.`, 'pending');
   }
 }
 
-function closePaymentModal(){
+async function closePaymentModal(){
+  const pendingName = getPendingPaymentName();
+  if(pendingName){
+    await showDialog({
+      title:'Pembayaran Belum Dikonfirmasi',
+      message:`Pembayaran untuk ${pendingName} belum dikonfirmasi. Silakan klik Konfirmasi Pembayaran terlebih dahulu sebelum menutup halaman pembayaran.`,
+      type:'info',
+      confirmText:'Oke'
+    });
+    return;
+  }
+
   document.getElementById('paymentModal')
     .classList.add('hidden');
 }
 
-function submitPaymentConfirmation(button){
+async function submitPaymentConfirmation(button){
   const nama = document.getElementById('paymentNama').value;
 
   if(!nama){
-    alert('Silakan pilih nama peserta terlebih dahulu.');
+    await showDialog({
+      title:'Nama Belum Dipilih',
+      message:'Silakan pilih nama peserta terlebih dahulu.',
+      type:'info',
+      confirmText:'Tutup'
+    });
     return;
   }
 
-  // Get current date and time
+  try{
+    await updatePaymentStatus(nama, 'Menunggu Konfirmasi');
+  }
+  catch(error){
+    console.error('Error updating payment status to pending:', error);
+  }
+
   const now = new Date();
   const formatter = new Intl.DateTimeFormat('id-ID', {
     day: 'numeric',
@@ -2322,19 +2445,19 @@ function submitPaymentConfirmation(button){
   });
 
   const dateTimeStr = formatter.format(now);
-  
-  // Create WhatsApp message
   const whatsappMessage = `Halo, saya sudah melakukan transfer pembayaran villa dengan data berikut:\n\nNama: ${nama}\nTanggal & Waktu: ${dateTimeStr}`;
-  
-  // WhatsApp number to send to
   const whatsappNumber = '6282265428224';
   const encodedMessage = encodeURIComponent(whatsappMessage);
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-  // Open WhatsApp
   window.open(whatsappLink, '_blank');
-  
-  // Close modal
+
+  const pendingName = getPendingPaymentName();
+  if(pendingName && normalizeName(pendingName) === normalizeName(nama)){
+    clearPendingPaymentName();
+    hidePaymentStatusInfo();
+  }
+
   closePaymentModal();
 }
 
@@ -2448,10 +2571,10 @@ async function submitPaymentProof(button){
   }
 }
 
-function openBarcodeModal(){
+async function openBarcodeModal(){
   if(isDeadlineClosed(PAYMENT_DEADLINE)){
     updateDeadlineUI();
-    showDialog({
+    await showDialog({
       title:'Pembayaran Ditutup',
       message:`Akses barcode pembayaran sudah ditutup pada ${formatDeadlineLabel(PAYMENT_DEADLINE)}.`,
       type:'info',
@@ -2463,7 +2586,7 @@ function openBarcodeModal(){
   const nama = document.getElementById('paymentNama').value;
 
   if(!nama){
-    showDialog({
+    await showDialog({
       title:'Nama Belum Dipilih',
       message:'Silakan pilih nama peserta terlebih dahulu.',
       type:'info',
@@ -2471,6 +2594,21 @@ function openBarcodeModal(){
     });
 
     return;
+  }
+
+  const confirmed = await promptOpenBarcode(nama);
+  if(!confirmed){
+    return;
+  }
+
+  setPendingPaymentName(nama);
+  showPaymentStatusInfo(`Barcode dibuka untuk ${nama}. Halaman akan terkunci sampai konfirmasi pembayaran selesai.`, 'pending');
+
+  try{
+    await updatePaymentStatus(nama, 'Menunggu Konfirmasi');
+  }
+  catch(error){
+    console.error('Error updating payment status to pending:', error);
   }
 
   const barcodeBox = document.getElementById('barcodeBox');
@@ -2500,9 +2638,21 @@ function openBarcodeModal(){
     .classList.remove('hidden');
 }
 
-function closeBarcodeModal(){
+async function closeBarcodeModal(){
   document.getElementById('barcodeModal')
     .classList.add('hidden');
+
+  const pendingName = getPendingPaymentName();
+  if(!pendingName){
+    return;
+  }
+
+  await showDialog({
+    title:'Konfirmasi Pembayaran',
+    message:`Pembayaran untuk ${pendingName} belum dikonfirmasi. Tombol ini hanya menutup barcode dan tetap menyimpan status menunggu konfirmasi.`,
+    type:'info',
+    confirmText:'Close'
+  });
 }
 
 
@@ -2611,6 +2761,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setInterval(updateDeadlineUI, 1000);
   pageLoader.style.display = 'flex';
   await loadData();
+  await restorePendingPayment();
   updateDeadlineUI();
   pageLoader.style.display = 'none';
 });
