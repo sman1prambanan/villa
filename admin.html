@@ -240,6 +240,27 @@ button:disabled{
   grid-column:1 / -1;
 }
 
+.check-field{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px;
+  border:1px solid #d0d5dd;
+  border-radius:12px;
+  background:#fff;
+}
+
+.check-field input{
+  width:18px;
+  height:18px;
+  accent-color:var(--brand);
+  flex:0 0 18px;
+}
+
+.check-field label{
+  margin:0;
+}
+
 label{
   color:#344054;
   font-size:13px;
@@ -523,6 +544,21 @@ tr:last-child td{
           <textarea id="settingPaymentDescription"></textarea>
         </div>
         <div class="field">
+          <label>Popup Pengumuman</label>
+          <div class="check-field">
+            <input type="checkbox" id="settingAnnouncementEnabled">
+            <label for="settingAnnouncementEnabled">Tampilkan saat web dibuka</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Judul Pengumuman</label>
+          <input id="settingAnnouncementTitle">
+        </div>
+        <div class="field full">
+          <label>Teks Pengumuman</label>
+          <textarea id="settingAnnouncementText"></textarea>
+        </div>
+        <div class="field">
           <label>Deadline Pendataan</label>
           <input type="datetime-local" id="settingFormDeadline">
         </div>
@@ -595,6 +631,9 @@ const DEFAULT_SETTINGS = {
   description:"Silahkan lakukan pendataan keikutsertaan acara villa. Pastikan data yang dikirim sudah benar sebelum dikirim ke pusat.",
   paymentTitle:"Pembayaran Villa",
   paymentDescription:"Akses pembayaran hanya untuk peserta yang memilih mengikuti. Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.",
+  announcementEnabled:"true",
+  announcementTitle:"Pengumuman",
+  announcementText:"Selamat datang di web pendataan Villa Exsociothree. Silakan baca informasi terbaru sebelum mengisi data.",
   footer:"© exsociothree 2026. All Right Reserved.",
   barcodeUrl:"https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg",
   formDeadline:"2026-07-05T23:59:59+07:00",
@@ -673,6 +712,9 @@ async function loadSettingsForm(){
   document.getElementById("settingDescription").value = settings.description;
   document.getElementById("settingPaymentTitle").value = settings.paymentTitle;
   document.getElementById("settingPaymentDescription").value = settings.paymentDescription;
+  document.getElementById("settingAnnouncementEnabled").checked = String(settings.announcementEnabled) === "true";
+  document.getElementById("settingAnnouncementTitle").value = settings.announcementTitle;
+  document.getElementById("settingAnnouncementText").value = settings.announcementText;
   document.getElementById("settingFooter").value = settings.footer;
   document.getElementById("settingBarcodeUrl").value = settings.barcodeUrl;
   document.getElementById("settingFormDeadline").value = toDateTimeLocal(settings.formDeadline);
@@ -695,6 +737,9 @@ async function saveSettings(){
     description:document.getElementById("settingDescription").value.trim(),
     paymentTitle:document.getElementById("settingPaymentTitle").value.trim(),
     paymentDescription:document.getElementById("settingPaymentDescription").value.trim(),
+    announcementEnabled:document.getElementById("settingAnnouncementEnabled").checked ? "true" : "false",
+    announcementTitle:document.getElementById("settingAnnouncementTitle").value.trim(),
+    announcementText:document.getElementById("settingAnnouncementText").value.trim(),
     footer:document.getElementById("settingFooter").value.trim(),
     barcodeUrl:document.getElementById("settingBarcodeUrl").value.trim(),
     formDeadline:fromDateTimeLocal(formDeadlineValue),
