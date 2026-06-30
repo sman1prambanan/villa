@@ -733,14 +733,7 @@ tr:last-child td{
 }
 
 .dialog-icon{
-  width:70px;
-  height:70px;
-  margin:0 auto 18px;
-  border-radius:50%;
-  background:
-    linear-gradient(135deg,rgba(255,255,255,.2),transparent),
-    linear-gradient(135deg,#3b82f6,#0f766e);
-  box-shadow:0 20px 40px rgba(59,130,246,.3);
+  display:none;
 }
 
 .dialog-card h3{
@@ -943,6 +936,16 @@ tr:last-child td{
   .barcode-box{
     min-height:220px;
     border-radius:18px;
+  }
+
+  .announcement-head,
+  .announcement-body{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  .announcement-head h2{
+    font-size:23px;
   }
 
 }
@@ -1289,6 +1292,80 @@ button:disabled{
   background:#fcfcfd;
 }
 
+.announcement-modal{
+  z-index:1200;
+}
+
+.announcement-card{
+  max-width:520px;
+  border-radius:20px;
+  background:#fff;
+  overflow:hidden;
+}
+
+.announcement-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  padding:24px 26px 18px;
+  border-bottom:1px solid #eaecf0;
+  background:linear-gradient(180deg,#fff,#f8fafc);
+}
+
+.announcement-label{
+  display:block;
+  margin-bottom:8px;
+  color:#667085;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.announcement-head h2{
+  color:var(--navy);
+  font-size:28px;
+  line-height:1.2;
+}
+
+.announcement-close{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#f2f4f7;
+  color:#344054;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.announcement-close:hover{
+  background:#e4e7ec;
+  color:var(--navy);
+}
+
+.announcement-body{
+  padding:22px 26px 26px;
+}
+
+.announcement-text{
+  color:#475467;
+  line-height:1.8;
+  white-space:pre-line;
+  margin-bottom:22px;
+}
+
+.announcement-actions{
+  display:flex;
+  justify-content:flex-end;
+}
+
 label{
   color:#344054;
 }
@@ -1453,6 +1530,26 @@ tr:hover{
     <div class="dialog-actions">
       <button id="dialogCancel" class="btn-secondary hidden"></button>
       <button id="dialogConfirm" class="btn-primary"></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal announcement-modal hidden" id="announcementModal">
+  <div class="modal-content announcement-card">
+    <div class="announcement-head">
+      <div>
+        <span class="announcement-label">Info Terbaru</span>
+        <h2 id="announcementTitle">Pengumuman</h2>
+      </div>
+      <span class="announcement-close" onclick="closeAnnouncementModal()">&times;</span>
+    </div>
+    <div class="announcement-body">
+      <p class="announcement-text" id="announcementText">
+        Selamat datang di web pendataan Villa Exsociothree. Silakan baca informasi terbaru sebelum mengisi data.
+      </p>
+      <div class="announcement-actions">
+        <button class="btn-primary" onclick="closeAnnouncementModal()">Saya Mengerti</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1825,6 +1922,9 @@ const DEFAULT_SITE_SETTINGS = {
   description:'Silahkan lakukan pendataan keikutsertaan acara villa. Pastikan data yang dikirim sudah benar sebelum dikirim ke pusat.',
   paymentTitle:'Pembayaran Villa',
   paymentDescription:'Akses pembayaran hanya untuk peserta yang memilih mengikuti. Pilih nama, buka barcode pembayaran, lalu konfirmasi ke pengurus setelah transfer.',
+  announcementEnabled:'true',
+  announcementTitle:'Pengumuman',
+  announcementText:'Selamat datang di web pendataan Villa Exsociothree. Silakan baca informasi terbaru sebelum mengisi data.',
   footer:'© exsociothree 2026. All Right Reserved.',
   barcodeUrl:'https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg',
   formDeadline:'2026-07-05T23:59:59+07:00',
@@ -1964,6 +2064,25 @@ function setTextById(id, value){
       footer.textContent = value;
     }
   }
+}
+
+function isAnnouncementEnabled(){
+  return String(siteSettings.announcementEnabled) === 'true' &&
+    String(siteSettings.announcementText || '').trim() !== '';
+}
+
+function openAnnouncementModal(){
+  if(!isAnnouncementEnabled()){
+    return;
+  }
+
+  setTextById('announcementTitle', siteSettings.announcementTitle || 'Pengumuman');
+  setTextById('announcementText', siteSettings.announcementText);
+  document.getElementById('announcementModal').classList.remove('hidden');
+}
+
+function closeAnnouncementModal(){
+  document.getElementById('announcementModal').classList.add('hidden');
 }
 
 async function applySiteSettings(){
@@ -2764,6 +2883,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await restorePendingPayment();
   updateDeadlineUI();
   pageLoader.style.display = 'none';
+  openAnnouncementModal();
 });
 
 /* =========================
