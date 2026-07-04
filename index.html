@@ -2,13 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#00a699">
 <title>exsociothree</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}:root{--primary:#00a699;--primary-dark:#008080;--primary-light:#4db8a8;--secondary:#ff6b6b;--accent:#ffa500;--dark:#1a1a2e;--light:#f8f9fa;--text:#2c3e50;--text-light:#7f8c8d;--border:#e0e0e0;--shadow-sm:0 2px 8px rgba(0,0,0,0.08);--shadow-md:0 8px 24px rgba(0,0,0,0.12);--shadow-lg:0 16px 48px rgba(0,0,0,0.15);--gradient-1:linear-gradient(135deg,#00a699 0%,#008080 100%);--gradient-accent:linear-gradient(135deg,#ffa500 0%,#ff8c00 100%)}html{scroll-behavior:smooth}body{min-height:100vh;background:linear-gradient(135deg,#f5f7fa 0%,#e8f1f5 100%);color:var(--text);overflow-x:hidden;font-size:16px;line-height:1.6}body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 50%,rgba(0,166,153,0.08) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(255,107,107,0.05) 0%,transparent 50%);pointer-events:none;z-index:0}.container{width:100%;max-width:1280px;margin:0 auto;padding:32px 16px;position:relative;z-index:1}header{background:white;border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:100}.header-content{max-width:1280px;margin:0 auto;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.header-logo{font-size:24px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.header-nav{display:flex;gap:20px;align-items:center}.header-link{color:var(--text-light);text-decoration:none;font-weight:500;transition:color 0.3s ease;cursor:pointer}.header-link:hover{color:var(--primary)}.hero-content{background:white;border-radius:16px;padding:48px 32px;box-shadow:var(--shadow-md);border:1px solid var(--border);margin-bottom:50px}.hero-badge{display:inline-block;background:linear-gradient(135deg,rgba(0,166,153,0.1),rgba(0,128,128,0.1));border:1px solid rgba(0,166,153,0.3);color:var(--primary-dark);padding:10px 18px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:20px;text-transform:uppercase;letter-spacing:0.5px}.hero h1{font-size:clamp(20px,7vw,48px);color:var(--dark);margin-bottom:16px;font-weight:800;line-height:1.1}.hero p{font-size:clamp(13px,3vw,16px);color:var(--text-light);max-width:600px;margin-bottom:24px;line-height:1.6}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.admin-link-wrap{margin-left:auto}.admin-link{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--light);color:var(--primary);border:2px solid var(--primary);border-radius:12px;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.3s ease;cursor:pointer}.admin-link:hover{background:var(--primary);color:white;transform:translateY(-2px);box-shadow:var(--shadow-md)}button,.btn{border:none;cursor:pointer;font-weight:600;padding:12px 24px;border-radius:12px;transition:all 0.3s ease;font-size:15px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(0,166,153,0.3);outline-offset:2px}.btn-primary{background:var(--gradient-1);color:white;box-shadow:0 8px 20px rgba(0,166,153,0.25)}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,166,153,0.35)}.btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}.btn-secondary{background:white;color:var(--primary);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}.btn-secondary:hover{background:rgba(0,166,153,0.05);transform:translateY(-2px)}.section-title{font-size:24px;font-weight:800;color:var(--dark);margin-bottom:24px;display:flex;align-items:center;gap:12px}.section-title::before{content:"";width:4px;height:32px;background:var(--gradient-1);border-radius:2px}.deadline-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:50px}.deadline-card{background:white;border-radius:12px;padding:24px;box-shadow:var(--shadow-md);border:2px solid transparent;transition:all 0.3s ease;border-left:4px solid var(--primary);position:relative;overflow:hidden}.deadline-card::before{content:"";position:absolute;top:0;right:0;width:100px;height:100px;background:radial-gradient(circle,rgba(0,166,153,0.1) 0%,transparent 70%);border-radius:50%;transform:translate(40%,-40%)}.deadline-card:nth-child(2){border-left-color:var(--accent)}.deadline-card.closed{border-left-color:var(--secondary);background:linear-gradient(135deg,rgba(255,107,107,0.05),rgba(255,107,107,0.02))}.deadline-label{color:var(--text-light);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}.deadline-time{font-size:clamp(20px,5vw,36px);font-weight:800;color:var(--primary);font-family:'Courier New',monospace;margin:8px 0;letter-spacing:1px}.deadline-card.closed .deadline-time{color:var(--secondary)}.deadline-date{color:var(--text-light);font-size:14px;line-height:1.6}.deadline-status{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--primary);font-weight:600}.event-roundup{background:white;border-radius:16px;padding:40px 32px;box-shadow:var(--shadow-md);border:1px solid var(--border);margin-bottom:40px}.roundup-header{text-align:center;margin-bottom:50px}.roundup-header h2{font-size:36px;font-weight:800;color:var(--dark);margin-bottom:12px}.event-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin-bottom:40px}.event-card{background:linear-gradient(135deg,#f5f7fa 0%,#e8f1f5 100%);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-md);transition:all 0.3s ease;border:1px solid var(--border);display:flex;flex-direction:column}.event-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}.event-image{width:100%;height:180px;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;font-size:60px;color:white;position:relative;overflow:hidden}.event-card:nth-child(2) .event-image{background:linear-gradient(135deg,#ffb84d,#ffa500)}.event-card:nth-child(3) .event-image{background:linear-gradient(135deg,#ff6b9d,#ffc66d)}.event-info{padding:20px;flex-grow:1;display:flex;flex-direction:column}.event-title{font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px}.event-desc{font-size:13px;color:var(--text-light);line-height:1.6;margin-bottom:16px;flex-grow:1}.event-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}.event-date{font-size:12px;color:var(--primary);font-weight:600}.event-badge{background:rgba(0,166,153,0.1);color:var(--primary);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase}.roundup-highlights{background:linear-gradient(135deg,rgba(0,166,153,0.05),rgba(0,128,128,0.05));border-radius:16px;padding:30px;border:1px solid rgba(0,166,153,0.2)}.highlights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}.highlight-item{text-align:center}.highlight-icon{font-size:40px;margin-bottom:12px}.highlight-number{font-size:32px;font-weight:800;color:var(--primary);margin-bottom:4px}.highlight-label{color:var(--text-light);font-size:14px;font-weight:600}.stats-section{margin-bottom:50px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}.stat-card{background:white;border-radius:12px;padding:28px 20px;box-shadow:var(--shadow-md);border-top:3px solid var(--primary);text-align:center;transition:all 0.3s ease;border:1px solid var(--border)}.stat-card:nth-child(2){border-top-color:var(--secondary)}.stat-card:nth-child(3){border-top-color:var(--accent)}.stat-card:nth-child(4){border-top-color:#6c63ff}.stat-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}.stat-number{font-size:clamp(20px,5vw,40px);font-weight:800;color:var(--primary);margin-bottom:12px;font-family:'Courier New',monospace}.stat-card:nth-child(2) .stat-number{color:var(--secondary)}.stat-card:nth-child(3) .stat-number{color:var(--accent)}.stat-card:nth-child(4) .stat-number{color:#6c63ff}.stat-label{color:var(--text-light);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}.action-buttons{background:white;border-radius:20px;padding:50px 40px;box-shadow:var(--shadow-md);border:1px solid var(--border);margin-bottom:50px;text-align:center}.action-buttons-title{font-size:28px;font-weight:800;color:var(--dark);margin-bottom:12px}.buttons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;justify-items:stretch}.button-card{display:flex;flex-direction:column;align-items:center;padding:28px 20px;background:linear-gradient(135deg,#f5f7fa 0%,#e8f1f5 100%);border-radius:16px;border:1px solid var(--border);cursor:pointer;transition:all 0.3s ease;text-decoration:none;color:inherit}.button-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:var(--primary)}.button-card-icon{font-size:44px;margin-bottom:16px}.button-card-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:8px}.button-card-desc{font-size:13px;color:var(--text-light);text-align:center;line-height:1.5}.payment-section{background:white;border-radius:20px;padding:50px 40px;box-shadow:var(--shadow-md);border:1px solid var(--border);margin-bottom:50px}.payment-layout{display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start}.payment-info h3{font-size:24px;font-weight:800;color:var(--dark);margin-bottom:16px}.payment-info p{color:var(--text-light);line-height:1.8;margin-bottom:24px}.payment-highlight{background:linear-gradient(135deg,rgba(0,166,153,0.1),rgba(0,128,128,0.1));border-left:4px solid var(--primary);border-radius:8px;padding:16px;margin-bottom:24px;color:var(--primary-dark);font-weight:600}.paid-preview{background:linear-gradient(135deg,#f5f7fa 0%,#e8f1f5 100%);border-radius:16px;padding:24px;border:1px solid var(--border)}.paid-preview-title{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:16px}.paid-preview-list{display:flex;flex-wrap:wrap;gap:10px}.paid-badge{background:rgba(34,197,94,0.15);color:#16a34a;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(34,197,94,0.3);display:inline-flex;align-items:center;gap:6px}.paid-badge::before{content:"✓";font-weight:800}.empty-paid{color:var(--text-light);font-size:13px}.modal{position:fixed;inset:0;background:rgba(26,26,46,0.8);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;padding:20px;z-index:999;animation:fadeIn 0.3s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.modal-content{width:100%;max-width:700px;background:white;border-radius:20px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;max-height:85vh;overflow:hidden;animation:slideUp 0.3s ease}@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}.modal-header{display:flex;justify-content:space-between;align-items:center;padding:28px 32px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f5f7fa,#e8f1f5)}.modal-header h2{font-size:22px;font-weight:800;color:var(--dark);margin:0}.modal-close{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(0,166,153,0.1);color:var(--primary);border:none;border-radius:10px;cursor:pointer;font-size:24px;transition:all 0.3s ease}.modal-close:hover{background:var(--primary);color:white}.modal-body{padding:32px;overflow-y:auto;flex-grow:1}.hidden{display:none!important}.form-group{margin-bottom:24px}label{display:block;margin-bottom:10px;font-weight:700;color:var(--dark);font-size:14px;text-transform:uppercase;letter-spacing:0.5px}input,select,textarea{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-family:inherit;font-size:15px;color:var(--text);transition:all 0.3s ease}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,166,153,0.1)}input::placeholder{color:var(--text-light)}textarea{resize:vertical;min-height:100px}.checkbox-group{display:flex;align-items:flex-start;gap:12px;padding:16px;background:linear-gradient(135deg,rgba(0,166,153,0.05),rgba(0,128,128,0.02));border-radius:12px;border:1px solid rgba(0,166,153,0.1);margin:20px 0}.checkbox-group input[type="checkbox"]{width:20px;height:20px;min-width:20px;margin-top:2px;accent-color:var(--primary);cursor:pointer}.checkbox-group label{margin:0;font-size:14px;font-weight:500;cursor:pointer;text-transform:none;letter-spacing:normal}.table-wrapper{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:white;box-shadow:var(--shadow-md)}table{width:100%;border-collapse:collapse}thead{position:sticky;top:0;z-index:10;background:linear-gradient(135deg,rgba(0,166,153,0.1),rgba(0,128,128,0.05))}th{padding:16px;text-align:left;font-weight:700;color:var(--primary-dark);font-size:13px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--border)}td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text);font-size:14px}tbody tr:hover{background:linear-gradient(135deg,rgba(0,166,153,0.03),rgba(0,128,128,0.02))}tbody tr:last-child td{border-bottom:none}.status-badge{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;gap:4px}.status-mengikuti{background:rgba(34,197,94,0.15);color:#16a34a;border:1px solid rgba(34,197,94,0.3)}.status-tidak{background:rgba(255,107,107,0.15);color:#ff6b6b;border:1px solid rgba(255,107,107,0.3)}.status-belum{background:rgba(127,140,141,0.15);color:#7f8c8d;border:1px solid rgba(127,140,141,0.3)}.status-lunas{background:rgba(34,197,94,0.15);color:#16a34a;border:1px solid rgba(34,197,94,0.3)}.dialog-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1100;padding:20px}.dialog-card{background:white;border-radius:16px;padding:32px;box-shadow:var(--shadow-lg);text-align:center;max-width:420px;width:100%;animation:slideUp 0.3s ease}.dialog-card h3{font-size:22px;font-weight:800;color:var(--dark);margin-bottom:12px}.dialog-card p{color:var(--text-light);line-height:1.8;margin-bottom:28px;font-size:15px}.dialog-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.dialog-actions button{min-width:110px}.spinner{width:40px;height:40px;border:4px solid rgba(0,166,153,0.2);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite}.button-spinner{width:16px;height:16px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}.loading{display:none;text-align:center;padding:30px;color:var(--text-light);font-weight:500}.page-loader{position:fixed;inset:0;background:rgba(248,249,250,0.95);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:2000;padding:20px}.loader-content{text-align:center}.loader-content .spinner{margin:0 auto 20px;width:48px;height:48px;border-width:5px}.page-loader p{color:var(--text);font-size:16px;font-weight:600}footer{background:var(--dark);color:white;padding:32px 16px;text-align:center;margin-top:60px;border-top:1px solid rgba(255,255,255,0.1)}.footer-content{max-width:1320px;margin:0 auto}.footer-text{opacity:0.8;font-size:14px}@media(max-width:1024px){.container{padding:30px 16px}.hero-content{padding:40px 28px}.deadline-grid{gap:16px}.stat-card{padding:24px 16px}.stats-grid{gap:16px}.event-card{margin-bottom:12px}}@media(max-width:768px){.container{padding:20px 12px}.header-content{padding:10px 12px}.header-logo{font-size:18px}.header-nav{gap:10px;font-size:12px}.hero-content{padding:24px 16px;margin-bottom:40px}.hero h1{font-size:clamp(24px,8vw,36px);margin-bottom:12px}.hero p{font-size:14px;margin-bottom:16px}.hero-actions{flex-direction:row;gap:12px;flex-wrap:wrap}.admin-link-wrap{margin-left:0;width:auto}.admin-link{padding:8px 16px;font-size:12px}.section-title{font-size:20px;margin-bottom:20px}.deadline-grid{grid-template-columns:1fr;gap:14px}.deadline-card{padding:20px}.deadline-label{font-size:11px;margin-bottom:8px}.deadline-time{font-size:32px;margin:8px 0}.deadline-format{font-size:11px}.deadline-date{font-size:12px}.deadline-status{margin-top:12px;padding-top:12px;font-size:12px}.btn-primary{padding:10px 16px;font-size:13px}.stat-card{padding:20px 16px;border-top:3px solid}.stat-number{font-size:32px;margin-bottom:8px}.stat-label{font-size:12px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.event-card{margin-bottom:8px}.event-image{height:140px;font-size:44px}.event-title{font-size:16px;margin-bottom:6px}.event-desc{font-size:12px;margin-bottom:12px}.event-footer{font-size:11px}.modal-content{max-width:100%;margin:0 16px}.modal-header{padding:16px}.modal-header h2{font-size:18px}.modal-body{padding:16px}.dialog-card{padding:16px}.dialog-card h3{font-size:18px}.dialog-card p{font-size:13px;margin-bottom:20px}button,.btn{padding:10px 16px;font-size:12px;width:auto}input,select,textarea{padding:10px 12px;font-size:14px}.table-wrapper{overflow-x:auto}table{font-size:12px}th,td{padding:10px 8px;font-size:11px}.header-link{font-size:12px}.hero-badge{padding:6px 12px;font-size:11px}}@media(max-width:480px){.container{padding:16px 10px}.header-content{padding:8px 10px;flex-wrap:wrap}.header-logo{font-size:16px;flex:1}.header-nav{gap:8px;width:100%;justify-content:flex-end;font-size:10px}.header-link{font-size:10px}.hero-content{padding:16px 12px;margin-bottom:20px;border-radius:12px}.hero h1{font-size:20px;margin-bottom:8px;font-weight:700}.hero p{font-size:12px;margin-bottom:12px;line-height:1.4}.hero-actions{gap:8px}.btn-secondary,.admin-link{padding:8px 12px;font-size:11px;border-radius:8px}.section-title{font-size:16px;margin-bottom:16px}.section-title::before{height:20px}.deadline-grid{grid-template-columns:1fr;gap:10px}.deadline-card{padding:14px;border-left:3px solid;border-radius:10px}.deadline-label{font-size:10px;letter-spacing:0.3px}.deadline-time{font-size:24px;font-weight:700;margin:6px 0}.deadline-format{font-size:9px;display:block;margin:4px 0}.deadline-date{font-size:11px;line-height:1.4;margin:4px 0}.deadline-status{margin-top:10px;padding-top:10px;font-size:11px}.btn-primary{padding:8px 12px;font-size:11px;border-radius:8px;width:100%!important;justify-content:center}.stat-card{padding:16px 12px;border-top:3px solid;border-radius:10px;text-align:center}.stat-card:hover{transform:none}.stat-number{font-size:24px;font-weight:700;margin-bottom:4px;font-family:'Courier New',monospace}.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.3px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}.event-roundup{padding:16px;border-radius:10px;margin-bottom:20px}.roundup-header{margin-bottom:16px}.roundup-header h2{font-size:16px;margin-bottom:4px}.roundup-header p{font-size:11px}.event-gallery{grid-template-columns:1fr;gap:12px}.event-card{border-radius:10px;overflow:hidden}.event-image{height:100px;font-size:32px}.event-info{padding:12px}.event-title{font-size:13px;margin-bottom:4px}.event-desc{font-size:11px;margin-bottom:8px}.event-footer{font-size:9px}.event-date{font-size:9px}.event-badge{padding:3px 8px;font-size:8px}.modal-content{max-width:100%;border-radius:12px;margin:0 12px}.modal-header{padding:12px;border-radius:12px 12px 0 0}.modal-header h2{font-size:16px}.modal-close{width:32px;height:32px;font-size:20px}.modal-body{padding:12px}.dialog-overlay{padding:12px}.dialog-card{padding:12px;border-radius:10px;max-width:280px}.dialog-card h3{font-size:16px;margin-bottom:8px}.dialog-card p{font-size:12px;margin-bottom:16px}.dialog-actions{gap:8px;flex-direction:column}.dialog-actions button{min-width:auto;font-size:11px;padding:8px}.button-spinner{width:12px;height:12px;border-width:2px}.spinner{width:32px;height:32px;border-width:3px}.loader-content .spinner{width:40px;height:40px}input,select,textarea{padding:10px;font-size:14px;border-radius:8px}label{font-size:12px;margin-bottom:6px}.checkbox-group{padding:12px;margin:12px 0;border-radius:8px}.checkbox-group input[type=checkbox]{width:16px;height:16px}.checkbox-group label{font-size:12px}.form-group{margin-bottom:16px}table{min-width:100%;font-size:10px}thead{background:linear-gradient(135deg,rgba(0,166,153,0.1),rgba(0,128,128,0.05))}th{padding:8px 6px;font-size:9px}td{padding:8px 6px;font-size:10px}.status-badge{padding:4px 8px;font-size:9px;font-weight:600}.footer-text{font-size:11px;opacity:0.9}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}:root{--primary:#00a699;--primary-dark:#008080;--secondary:#ff6b6b;--accent:#ffa500;--dark:#1a1a2e;--text:#2c3e50;--text-light:#7f8c8d;--border:#e0e0e0;--shadow:0 2px 8px rgba(0,0,0,0.1);--gradient-1:linear-gradient(135deg,#00a699,#008080)}html{scroll-behavior:smooth}body{min-height:100vh;background:linear-gradient(135deg,#f5f7fa 0%,#e8f1f5 100%);color:var(--text);overflow-x:hidden;font-size:15px;line-height:1.5}header{background:#fff;border-bottom:1px solid var(--border);box-shadow:var(--shadow);position:sticky;top:0;z-index:100}.header-content{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}.header-logo{font-size:18px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.header-nav{display:flex;gap:14px;align-items:center;font-size:12px}.header-link{color:var(--text-light);text-decoration:none;font-weight:500;cursor:pointer;transition:color 0.3s}.header-link:active{color:var(--primary)}.container{width:100%;max-width:1200px;margin:0 auto;padding:16px;z-index:1}.hero{margin-bottom:24px}.hero-content{background:#fff;border-radius:12px;padding:20px 16px;box-shadow:var(--shadow);border:1px solid var(--border)}.hero-badge{display:inline-block;background:rgba(0,166,153,0.1);border:1px solid rgba(0,166,153,0.3);color:var(--primary-dark);padding:6px 12px;border-radius:20px;font-size:10px;font-weight:600;margin-bottom:8px;text-transform:uppercase}.hero h1{font-size:26px;color:var(--dark);margin-bottom:10px;font-weight:800;line-height:1.2}.hero p{font-size:13px;color:var(--text-light);margin-bottom:12px;line-height:1.5}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:none;cursor:pointer;font-weight:600;padding:10px 16px;border-radius:8px;font-size:12px;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px}.btn-primary{background:var(--gradient-1);color:#fff;box-shadow:0 4px 12px rgba(0,166,153,0.2)}.btn-primary:active{transform:translateY(-1px)}.btn-secondary{background:#fff;color:var(--primary);border:2px solid var(--primary)}.admin-link{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;text-decoration:none;font-weight:600;font-size:11px;cursor:pointer}.section-title{font-size:18px;font-weight:800;color:var(--dark);margin:20px 0 12px;display:flex;align-items:center;gap:8px}.section-title::before{content:"";width:3px;height:20px;background:var(--gradient-1)}.deadline-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:24px}.deadline-card{background:#fff;border-radius:10px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);border-left:3px solid var(--primary)}.deadline-card:nth-child(2){border-left-color:var(--accent)}.deadline-label{color:var(--text-light);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:4px}.deadline-time{font-size:24px;font-weight:800;color:var(--primary);font-family:'Courier New',monospace;margin:6px 0}.deadline-format{font-size:10px;color:var(--text-light)}.deadline-date{color:var(--text-light);font-size:11px;line-height:1.4;margin-top:6px}.deadline-status{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;color:var(--primary);font-weight:600}.stats-section{margin-bottom:24px}.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat-card{background:#fff;border-radius:10px;padding:16px;box-shadow:var(--shadow);border-top:3px solid var(--primary);text-align:center;border:1px solid var(--border)}.stat-card:nth-child(2){border-top-color:var(--secondary)}.stat-card:nth-child(3){border-top-color:var(--accent)}.stat-card:nth-child(4){border-top-color:#6c63ff}.stat-number{font-size:28px;font-weight:800;color:var(--primary);margin-bottom:6px;font-family:'Courier New',monospace}.stat-card:nth-child(2) .stat-number{color:var(--secondary)}.stat-card:nth-child(3) .stat-number{color:var(--accent)}.stat-card:nth-child(4) .stat-number{color:#6c63ff}.stat-label{color:var(--text-light);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.2px}.event-roundup{background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px}.roundup-header{text-align:center;margin-bottom:16px}.roundup-header h2{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:4px}.roundup-header p{font-size:12px;color:var(--text-light)}.event-gallery{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px}.event-card{background:linear-gradient(135deg,#f5f7fa,#e8f1f5);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;flex-direction:column}.event-image{width:100%;height:120px;background:linear-gradient(135deg,var(--primary),#008080);display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff}.event-card:nth-child(2) .event-image{background:linear-gradient(135deg,#ffb84d,#ffa500)}.event-info{padding:12px;flex-grow:1;display:flex;flex-direction:column}.event-title{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}.event-desc{font-size:11px;color:var(--text-light);line-height:1.4;margin-bottom:8px;flex-grow:1}.event-footer{display:flex;justify-content:space-between;align-items:center;font-size:10px}.event-date{color:var(--primary);font-weight:600}.event-badge{background:rgba(0,166,153,0.1);color:var(--primary);padding:2px 6px;border-radius:10px;font-size:9px;font-weight:600;text-transform:uppercase}.modal{position:fixed;inset:0;background:rgba(26,26,46,0.85);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:flex-end;padding:16px;z-index:999}.modal-content{width:100%;max-width:600px;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 16px rgba(0,0,0,0.15);display:flex;flex-direction:column;max-height:90vh;overflow:hidden}.modal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f5f7fa,#e8f1f5)}.modal-header h2{font-size:16px;font-weight:800;color:var(--dark)}.modal-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(0,166,153,0.1);color:var(--primary);border:none;border-radius:6px;cursor:pointer;font-size:18px;flex-shrink:0}.modal-body{padding:14px;overflow-y:auto;flex-grow:1}.hidden{display:none!important}.form-group{margin-bottom:12px}label{display:block;margin-bottom:6px;font-weight:700;color:var(--dark);font-size:12px;text-transform:uppercase}input,select,textarea{width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:14px;color:var(--text);-webkit-appearance:none;appearance:none}input:focus,select:focus{outline:none;border-color:var(--primary);background-color:#fff}textarea{resize:vertical;min-height:80px}.checkbox-group{display:flex;align-items:flex-start;gap:8px;padding:10px;background:rgba(0,166,153,0.05);border-radius:6px;border:1px solid rgba(0,166,153,0.1);margin:10px 0}.checkbox-group input{width:16px;height:16px;margin-top:2px;accent-color:var(--primary)}.checkbox-group label{margin:0;font-size:12px;font-weight:500}.table-wrapper{overflow-x:auto;border-radius:8px;border:1px solid var(--border);background:#fff;box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse;font-size:11px}th{padding:10px;text-align:left;font-weight:700;color:var(--primary-dark);font-size:10px;text-transform:uppercase;background:rgba(0,166,153,0.05);border-bottom:2px solid var(--border)}td{padding:10px;border-bottom:1px solid var(--border);color:var(--text)}.status-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:12px;font-size:10px;font-weight:700;text-transform:uppercase}.status-mengikuti{background:rgba(34,197,94,0.15);color:#16a34a}.status-tidak{background:rgba(255,107,107,0.15);color:#ff6b6b}.status-belum{background:rgba(127,140,141,0.15);color:#7f8c8d}.status-lunas{background:rgba(34,197,94,0.15);color:#16a34a}.dialog-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1100;padding:16px}.dialog-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.15);text-align:center;max-width:340px;width:100%}.dialog-card h3{font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px}.dialog-card p{color:var(--text-light);line-height:1.5;margin-bottom:16px;font-size:13px}.dialog-actions{display:flex;gap:8px;justify-content:center;flex-direction:column}.dialog-actions button{padding:10px 16px;font-size:12px;border:none;border-radius:6px;font-weight:600;cursor:pointer}.btn-primary{background:var(--gradient-1);color:#fff}.btn-secondary{background:#f0f0f0;color:var(--text)}.spinner{width:32px;height:32px;border:3px solid rgba(0,166,153,0.2);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.page-loader{position:fixed;inset:0;background:rgba(248,249,250,0.95);display:flex;align-items:center;justify-content:center;z-index:2000}.loader-content{text-align:center}.loader-content .spinner{margin:0 auto 12px;width:36px;height:36px}.page-loader p{color:var(--text);font-size:13px;font-weight:600}footer{background:var(--dark);color:#fff;padding:16px;text-align:center;margin-top:40px}.footer-text{opacity:0.8;font-size:11px}
 </style>
 </head>
 <body>
@@ -16,7 +17,7 @@
 <div id="pageLoader" class="page-loader">
   <div class="loader-content">
     <div class="spinner"></div>
-    <p>Memuat halaman... tunggu sebentar</p>
+    <p>Memuat halaman...</p>
   </div>
 </div>
 
@@ -25,8 +26,8 @@
     <div class="header-logo">exsociothree</div>
     <nav class="header-nav">
       <a href="#" class="header-link">Beranda</a>
-      <a href="#events" class="header-link">Lainya</a>
-      <a href="admin.html" class="header-link">Login</a>
+      <a href="#events" class="header-link">Event</a>
+      <a href="admin.html" class="header-link">Admin</a>
     </nav>
   </div>
 </header>
@@ -43,18 +44,14 @@
 </div>
 
 <div class="modal hidden" id="announcementModal">
-  <div class="modal-content" style="max-width:600px;">
+  <div class="modal-content">
     <div class="modal-header">
-      <h2 id="announcementTitle">Pengumuman Penting</h2>
+      <h2 id="announcementTitle">Pengumuman</h2>
       <button class="modal-close" onclick="closeAnnouncementModal()">×</button>
     </div>
     <div class="modal-body">
-      <p id="announcementText" style="margin:0;line-height:1.8;color:var(--text-light);">
-        Selamat datang di web pendataan Villa Exsociothree. Silakan baca informasi terbaru sebelum mengisi data.
-      </p>
-      <button class="btn-primary" onclick="closeAnnouncementModal()" style="width:100%;justify-content:center;margin-top:20px;">
-        Saya Mengerti
-      </button>
+      <p id="announcementText" style="margin:0;line-height:1.6;color:var(--text-light);font-size:13px;">Selamat datang di web pendataan Villa Exsociothree.</p>
+      <button class="btn btn-primary" onclick="closeAnnouncementModal()" style="width:100%;justify-content:center;margin-top:12px;">Saya Mengerti</button>
     </div>
   </div>
 </div>
@@ -65,53 +62,39 @@
     <div class="hero-content">
       <div class="hero-badge" id="siteBadge">Acara Eksklusif</div>
       <h1 id="siteTitle">Villa Exsociothree</h1>
-      <p id="siteDescription">
-        Selamat datang di portal pendataan keikutsertaan acara Villa. Pastikan data Anda benar sebelum dikirim ke pusat.
-      </p>
-
+      <p id="siteDescription">Selamat datang di portal pendataan keikutsertaan acara Villa.</p>
       <div class="hero-actions">
-        <button class="btn-secondary" onclick="openTableModal()">
-          Daftar Peserta
-        </button>
-
-        <div class="admin-link-wrap">
-          <a class="admin-link" href="admin.html">
-            Login
-          </a>
-        </div>
+        <button class="btn btn-secondary" onclick="openTableModal()">Daftar Peserta</button>
+        <a class="admin-link" href="admin.html">Login</a>
       </div>
     </div>
   </section>
 
   <section>
-    <h2 class="section-title">Halaman Verifikasi</h2>
+    <h2 class="section-title">Batas Waktu</h2>
     <div class="deadline-grid">
       <div class="deadline-card" id="formDeadlineCard">
-        <span class="deadline-label">Regristasi</span>
+        <span class="deadline-label">Registrasi</span>
         <div class="deadline-time" id="formCountdown">00:00:00:00</div>
-        <span class="deadline-format">Hari : Jam : Menit : Detik</span>
+        <span class="deadline-format">Hari:Jam:Menit:Detik</span>
         <div class="deadline-date" id="formDeadlineStatus">Ditutup 5 Juli 2026, 23:59 WIB</div>
         <div class="deadline-status">✓ Akses Dibuka</div>
-        <button class="btn-primary" id="openFormButton" data-access="form" onclick="openFormModal(this)" style="width:100%;justify-content:center;margin-top:16px;">
-          Regristasi
-        </button>
+        <button class="btn btn-primary" id="openFormButton" data-access="form" onclick="openFormModal(this)" style="width:100%;justify-content:center;margin-top:10px;">Registrasi</button>
       </div>
 
       <div class="deadline-card" id="paymentDeadlineCard">
         <span class="deadline-label">Pembayaran</span>
         <div class="deadline-time" id="paymentCountdown">00:00:00:00</div>
-        <span class="deadline-format">Hari : Jam : Menit : Detik</span>
+        <span class="deadline-format">Hari:Jam:Menit:Detik</span>
         <div class="deadline-date" id="paymentDeadlineStatus">Ditutup 12 Juli 2026, 23:59 WIB</div>
         <div class="deadline-status">✓ Akses Dibuka</div>
-        <button class="btn-primary" id="openPaymentButton" data-access="payment" onclick="openPaymentModal(this)" style="width:100%;justify-content:center;margin-top:16px;">
-          Pembayaran
-        </button>
+        <button class="btn btn-primary" id="openPaymentButton" data-access="payment" onclick="openPaymentModal(this)" style="width:100%;justify-content:center;margin-top:10px;">Pembayaran</button>
       </div>
     </div>
   </section>
 
   <section class="stats-section">
-    <h2 class="section-title">Status Rekapan Peserta</h2>
+    <h2 class="section-title">Statistik Partisipasi</h2>
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number" id="ikutCount">0</div>
@@ -119,7 +102,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-number" id="tidakCount">0</div>
-        <div class="stat-label">Tidak Mengikuti</div>
+        <div class="stat-label">Tidak Ikut</div>
       </div>
       <div class="stat-card">
         <div class="stat-number" id="belumCount">0</div>
@@ -127,85 +110,37 @@
       </div>
       <div class="stat-card">
         <div class="stat-number" id="paidCount">0</div>
-        <div class="stat-label">Sudah Membayar</div>
+        <div class="stat-label">Sudah Bayar</div>
       </div>
     </div>
   </section>
 
   <section class="event-roundup" id="events">
     <div class="roundup-header">
-      <h2>Acara Menarik Lainya :</h2>
-      <p>Jelajahi momen-momen menarik dari acara Villa Exsociothree</p>
+      <h2>Acara Menarik</h2>
+      <p>Jelajahi momen-momen menarik dari acara Villa</p>
     </div>
-
+    <div class="event-gallery">
       <div class="event-card">
         <div class="event-image">🍽️</div>
         <div class="event-info">
           <div class="event-title">Makan Bersama</div>
           <p class="event-desc">Hidangan lezat dan suasana hangat saat berbagi cerita dengan sesama peserta acara.</p>
           <div class="event-footer">
-            <span class="event-date">15-16 Juli 2026</span>
+            <span class="event-date">Setiap Hari</span>
             <span class="event-badge">Aktivitas</span>
           </div>
         </div>
       </div>
-
       <div class="event-card">
         <div class="event-image">🎮</div>
         <div class="event-info">
           <div class="event-title">Permainan Seru</div>
           <p class="event-desc">Berbagai permainan menarik dan kompetisi yang mengasah kemampuan serta mempererat tali persahabatan.</p>
           <div class="event-footer">
-            <span class="event-date">15-16 Juli 2026</span>
+            <span class="event-date">4-5 Juli 2026</span>
             <span class="event-badge">Hiburan</span>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="action-buttons">
-    <h2 class="action-buttons-title">Fitur Rekap Data</h2>
-    <p style="color:var(--text-light);margin-bottom:40px;font-size:16px;max-width:600px;margin-left:auto;margin-right:auto;">Pilih salah satu akses di bawah untuk memulai pengisian data atau melihat informasi pembayaran</p>
-    
-    <div class="buttons-grid">
-      <button class="button-card" data-access="form" onclick="openFormModal(this)">
-        <div class="button-card-icon"></div>
-        <div class="button-card-title">Isi Pendataan</div>
-        <div class="button-card-desc">Masukkan data keikutsertaan Anda di acara Villa</div>
-      </button>
-
-      <button class="button-card" data-access="payment" onclick="openPaymentModal(this)">
-        <div class="button-card-icon"></div>
-        <div class="button-card-title">Pembayaran</div>
-        <div class="button-card-desc">Lihat kode pembayaran dan konfirmasi transfer</div>
-      </button>
-
-      <button class="button-card" onclick="openTableModal()">
-        <div class="button-card-icon"></div>
-        <div class="button-card-title">Daftar Peserta</div>
-        <div class="button-card-desc">Lihat daftar lengkap peserta yang terdaftar</div>
-      </button>
-    </div>
-  </section>
-
-  <section class="payment-section">
-    <h2 class="section-title">Informasi Pembayaran</h2>
-    <div class="payment-layout">
-      <div class="payment-info">
-        <h3 id="paymentTitle">Pembayaran Villa Exsociothree</h3>
-        <p id="paymentDescription">Pembayaran hanya tersedia untuk peserta yang telah memilih status "Mengikuti" dalam pendataan. Silakan pilih nama Anda, buka barcode pembayaran, lalu konfirmasi transfer melalui WhatsApp ke pengurus.</p>
-        <div class="payment-highlight">
-          Biaya Acara: <strong>Rp 50.000</strong>
-        </div>
-        <button class="btn-primary" data-access="payment" onclick="openPaymentModal()">
-          Buka Akses Pembayaran
-        </button>
-      </div>
-      <div class="paid-preview">
-        <div class="paid-preview-title">Peserta yang Sudah Membayar</div>
-        <div class="paid-preview-list" id="paidPreviewList">
-          <span class="empty-paid">Belum ada peserta yang ditandai membayar.</span>
         </div>
       </div>
     </div>
@@ -221,7 +156,7 @@
 
 <!-- FORM MODAL -->
 <div class="modal hidden" id="formModal">
-  <div class="modal-content" style="max-width:500px;">
+  <div class="modal-content">
     <div class="modal-header">
       <h2>Isi Pendataan</h2>
       <button class="modal-close" onclick="closeFormModal()">×</button>
@@ -237,22 +172,22 @@
         <label>Status Kehadiran</label>
         <select id="status">
           <option value="">Pilih Status</option>
-          <option value="Mengikuti">Mengikuti</option>
-          <option value="Tidak Mengikuti">Tidak Mengikuti</option>
+          <option value="Mengikuti">✅ Mengikuti</option>
+          <option value="Tidak Mengikuti">❌ Tidak Mengikuti</option>
         </select>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="setuju">
-        <label for="setuju">Saya sudah memeriksa kembali data dan siap mengirim ke pusat</label>
+        <label for="setuju">Saya sudah memeriksa kembali data dan siap mengirim</label>
       </div>
-      <button class="btn-primary" style="width:100%;justify-content:center;" data-access="form" onclick="submitData(this)">Kirim Pendataan</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" data-access="form" onclick="submitData(this)">Kirim Pendataan</button>
     </div>
   </div>
 </div>
 
 <!-- PASSWORD MODAL -->
 <div class="modal hidden" id="passwordModal">
-  <div class="modal-content" style="max-width:420px;">
+  <div class="modal-content">
     <div class="modal-header">
       <h2>Akses Daftar Peserta</h2>
       <button class="modal-close" onclick="closePasswordModal()">×</button>
@@ -262,7 +197,7 @@
         <label>Masukkan Password</label>
         <input type="password" id="tablePassword" placeholder="Masukkan password">
       </div>
-      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="checkPassword(this)">Masuk</button>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="checkPassword(this)">Masuk</button>
     </div>
   </div>
 </div>
@@ -271,22 +206,22 @@
 <div class="modal hidden" id="tableModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Daftar Pendataan Peserta</h2>
+      <h2>Daftar Peserta</h2>
       <button class="modal-close" onclick="closeTableModal()">×</button>
     </div>
     <div class="modal-body">
-      <div id="loading" class="loading">
-        <div class="spinner"></div>
+      <div id="loading" style="display:none;text-align:center;padding:16px;color:var(--text-light);">
+        <div class="spinner" style="margin:0 auto 8px;"></div>
         <p>Memuat data...</p>
       </div>
       <div class="table-wrapper">
-        <table class="data-table">
+        <table>
           <thead>
             <tr>
               <th>No</th>
               <th>Nama</th>
               <th>Status</th>
-              <th>Pembayaran</th>
+              <th>Bayar</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
@@ -300,36 +235,24 @@
 <div class="modal hidden" id="paymentModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Pembayaran digital</h2>
+      <h2>💳 Pembayaran</h2>
       <button class="modal-close" onclick="closePaymentModal()">×</button>
     </div>
     <div class="modal-body">
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;align-items:start;">
-        <div>
-          <div class="form-group">
-            <label>Pilih Nama Peserta</label>
-            <select id="paymentNama">
-              <option value="">Pilih Nama</option>
-            </select>
-          </div>
-          <div class="payment-highlight">
-            Pembayaran dapat dilakukan hanya untuk siswa yang terdaftar <strong>Mengikuti</strong>. Biaya pembayaran Villa sebesar <strong>Rp 50.000</strong>
-          </div>
-          <div id="paymentStatusInfo" class="payment-highlight hidden"></div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <button class="btn-primary" data-access="payment" onclick="openBarcodeModal()">Tampilakn Barcode</button>
-            <button class="btn-primary" data-access="payment" onclick="submitPaymentConfirmation(this)">Konfirmasi Pembayaran</button>
-            <button class="btn-secondary" onclick="closePaymentModal()">✕ Tutup</button>
-          </div>
-        </div>
-        <div>
-          <label>Sudah Membayar</label>
-          <div style="background:linear-gradient(135deg,rgba(0,166,153,0.05),rgba(0,128,128,0.02));padding:16px;border-radius:12px;border:1px solid rgba(0,166,153,0.2);max-height:300px;overflow-y:auto;">
-            <div id="paidFullList" class="paid-preview-list">
-              <div class="empty-paid">Belum ada peserta yang ditandai membayar.</div>
-            </div>
-          </div>
-        </div>
+      <div class="form-group">
+        <label>Pilih Nama Peserta</label>
+        <select id="paymentNama">
+          <option value="">Pilih Nama</option>
+        </select>
+      </div>
+      <div style="background:rgba(0,166,153,0.1);padding:10px;border-radius:6px;margin-bottom:12px;font-size:12px;color:var(--primary-dark);border-left:3px solid var(--primary);">
+        Biaya pembayaran Villa: <strong>Rp 50.000</strong>
+      </div>
+      <div id="paymentStatusInfo" style="display:none;background:rgba(0,166,153,0.1);padding:10px;border-radius:6px;margin-bottom:12px;font-size:12px;border-left:3px solid var(--primary);"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="btn btn-primary" data-access="payment" onclick="openBarcodeModal()" style="width:100%;justify-content:center;">📱 Buka Barcode</button>
+        <button class="btn btn-primary" data-access="payment" onclick="submitPaymentConfirmation(this)" style="width:100%;justify-content:center;">✓ Konfirmasi</button>
+        <button class="btn btn-secondary" onclick="closePaymentModal()" style="width:100%;justify-content:center;">Tutup</button>
       </div>
     </div>
   </div>
@@ -337,20 +260,19 @@
 
 <!-- BARCODE MODAL -->
 <div class="modal hidden" id="barcodeModal">
-  <div class="modal-content" style="max-width:560px;">
+  <div class="modal-content">
     <div class="modal-header">
-      <h2>Tampilkan Barcode</h2>
+      <h2>📱 Barcode Pembayaran</h2>
       <button class="modal-close" onclick="closeBarcodeModal()">×</button>
     </div>
     <div class="modal-body">
-      <div style="border-radius:12px;overflow:hidden;background:linear-gradient(135deg,rgba(0,166,153,0.05),rgba(0,128,128,0.02));border:2px dashed #00a699;padding:20px;text-align:center;margin-bottom:20px;display:flex;align-items:center;justify-content:center;min-height:300px;" id="barcodeBox">
+      <div style="border-radius:8px;background:rgba(0,166,153,0.05);border:2px dashed var(--primary);padding:12px;text-align:center;margin-bottom:12px;min-height:220px;display:flex;align-items:center;justify-content:center;" id="barcodeBox">
         <div style="text-align:center;">
-          <div style="font-size:48px;margin-bottom:12px;"></div>
-          <h3 style="color:var(--dark);margin-bottom:8px;">Barcode belum dipasang</h3>
-          <p style="color:var(--text-light);font-size:14px;">Setelah barcode diberikan, simpan gambarnya di folder ini lalu isi nama filenya pada BARCODE_IMAGE_URL di bagian script.</p>
+          <div style="font-size:32px;margin-bottom:8px;">📷</div>
+          <p style="color:var(--text-light);font-size:11px;">Barcode belum dipasang</p>
         </div>
       </div>
-      <p id="barcodeNameText" style="text-align:center;color:var(--text-light);font-weight:600;">-</p>
+      <p id="barcodeNameText" style="text-align:center;color:var(--text-light);font-weight:600;font-size:12px;">-</p>
     </div>
   </div>
 </div>
@@ -412,18 +334,17 @@ function updatePaymentStatus(nama, status){
   }).then(response => response.json());
 }
 
-function showPaymentStatusInfo(message, type = 'info'){
+function showPaymentStatusInfo(message){
   const info = document.getElementById('paymentStatusInfo');
   if(!info) return;
   info.textContent = message;
-  info.className = `payment-highlight`;
-  info.classList.remove('hidden');
+  info.style.display = 'block';
 }
 
 function hidePaymentStatusInfo(){
   const info = document.getElementById('paymentStatusInfo');
   if(info){
-    info.classList.add('hidden');
+    info.style.display = 'none';
   }
 }
 
@@ -434,7 +355,7 @@ function shouldShowPendingName(item){
 async function promptOpenBarcode(nama){
   return await showDialog({
     title:'Buka Barcode Pembayaran',
-    message:`Anda akan membuka barcode untuk ${nama}. Halaman akan terkunci dan Anda harus memastikan telah melakukan transfer serta mengkonfirmasi pembayaran setelahnya. Nama akan tetap terlihat pada opsi pembayaran sampai konfirmasi selesai.`,
+    message:`Anda akan membuka barcode untuk ${nama}. Halaman akan terkunci sampai konfirmasi selesai.`,
     type:'confirm',
     confirmText:'Buka Barcode',
     cancelText:'Batal'
@@ -451,7 +372,7 @@ async function restorePendingPayment(){
   }
   await showDialog({
     title:'Pembayaran Belum Dikonfirmasi',
-    message:`Masih ada pembayaran yang menunggu konfirmasi untuk ${pendingName}. Silakan lanjutkan konfirmasi pembayaran atau tutup setelah selesai.`,
+    message:`Masih ada pembayaran yang menunggu konfirmasi untuk ${pendingName}.`,
     type:'info',
     confirmText:'Oke'
   });
@@ -525,8 +446,6 @@ async function applySiteSettings(){
   setTextById('siteBadge', siteSettings.badge);
   setTextById('siteTitle', siteSettings.title);
   setTextById('siteDescription', siteSettings.description);
-  setTextById('paymentTitle', siteSettings.paymentTitle);
-  setTextById('paymentDescription', siteSettings.paymentDescription);
   setTextById('siteFooter', siteSettings.footer);
   updateDeadlineUI();
 }
@@ -570,9 +489,7 @@ function setAccessButtonsState(accessName, closed){
   document
     .querySelectorAll(`[data-access="${accessName}"]`)
     .forEach(button => {
-      if(!button.classList.contains('button-loading')){
-        button.disabled = closed;
-      }
+      button.disabled = closed;
       button.title = closed ? 'Akses sudah ditutup' : '';
     });
 }
@@ -773,15 +690,6 @@ function isPaidItem(item){
   ].includes(paymentValue);
 }
 
-function isPendingPaymentItem(item){
-  return [
-    'menunggu',
-    'pending',
-    'menunggu konfirmasi',
-    'perlu konfirmasi'
-  ].includes(normalizeName(getPaymentValue(item)));
-}
-
 function getPaidNames(data = latestVillaData){
   return data
     .filter(item => isPaidItem(item))
@@ -790,34 +698,11 @@ function getPaidNames(data = latestVillaData){
 }
 
 function renderPaidLists(data = latestVillaData){
-  const previewList = document.getElementById('paidPreviewList');
-  const fullList = document.getElementById('paidFullList');
   const paidCount = document.getElementById('paidCount');
   const paidNames = getPaidNames(data);
   if(paidCount){
     paidCount.innerText = paidNames.length;
   }
-  if(!previewList || !fullList){
-    return;
-  }
-  if(paidNames.length === 0){
-    previewList.innerHTML =
-      '<span class="empty-paid">Belum ada peserta yang ditandai membayar.</span>';
-    fullList.innerHTML =
-      '<div class="empty-paid">Belum ada peserta yang ditandai membayar.</div>';
-    return;
-  }
-  previewList.innerHTML = paidNames
-    .map(name => `<span class="paid-badge">${name}</span>`)
-    .join('');
-  fullList.innerHTML = paidNames
-    .map((name, index) => `
-      <div style="padding:8px 12px;border:1px solid rgba(0,166,153,0.2);border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;background:rgba(34,197,94,0.08);">
-        <span style="font-weight:600;color:var(--text);">${index + 1}. ${name}</span>
-        <span class="status-badge status-lunas">✓ Lunas</span>
-      </div>
-    `)
-    .join('');
 }
 
 async function openPaymentModal(button){
@@ -841,23 +726,17 @@ async function openPaymentModal(button){
       '<option value="">Pilih Nama</option>';
     data.forEach(item => {
       if(shouldShowPendingName(item)){
-        select.innerHTML += `
-          <option value="${item.nama}">
-            ${item.nama}
-          </option>
-        `;
+        select.innerHTML += `<option value="${item.nama}">${item.nama}</option>`;
       }
     });
     const pendingName = getPendingPaymentName();
     if(pendingName){
       select.value = pendingName;
-      showPaymentStatusInfo(`Masih ada pembayaran yang menunggu konfirmasi untuk ${pendingName}.`);
+      showPaymentStatusInfo(`Pembayaran untuk ${pendingName} menunggu konfirmasi.`);
     } else {
       hidePaymentStatusInfo();
     }
     renderPaidLists(data);
-    select.removeEventListener('change', handlePaymentNameChange);
-    select.addEventListener('change', handlePaymentNameChange);
     document.getElementById('paymentModal')
       .classList.remove('hidden');
   }catch(error){
@@ -873,24 +752,12 @@ async function openPaymentModal(button){
   }
 }
 
-async function handlePaymentNameChange(event){
-  const nama = event.target.value;
-  hidePaymentStatusInfo();
-  if(!nama){
-    return;
-  }
-  const pendingName = getPendingPaymentName();
-  if(pendingName && normalizeName(pendingName) === normalizeName(nama)){
-    showPaymentStatusInfo(`Nama ${nama} sedang menunggu konfirmasi pembayaran.`);
-  }
-}
-
 async function closePaymentModal(){
   const pendingName = getPendingPaymentName();
   if(pendingName){
     await showDialog({
       title:'Pembayaran Belum Dikonfirmasi',
-      message:`Pembayaran untuk ${pendingName} belum dikonfirmasi. Silakan klik Konfirmasi Pembayaran terlebih dahulu sebelum menutup halaman pembayaran.`,
+      message:`Pembayaran untuk ${pendingName} belum dikonfirmasi.`,
       type:'info',
       confirmText:'Oke'
     });
@@ -915,7 +782,7 @@ async function submitPaymentConfirmation(button){
     await updatePaymentStatus(nama, 'Menunggu Konfirmasi');
   }
   catch(error){
-    console.error('Error updating payment status to pending:', error);
+    console.error('Error updating payment status:', error);
   }
   const now = new Date();
   const formatter = new Intl.DateTimeFormat('id-ID', {
@@ -928,7 +795,7 @@ async function submitPaymentConfirmation(button){
     timeZone: 'Asia/Jakarta'
   });
   const dateTimeStr = formatter.format(now);
-  const whatsappMessage = `Halo, saya sudah melakukan transfer pembayaran villa dengan data berikut:\n\nNama: ${nama}\nTanggal & Waktu: ${dateTimeStr}`;
+  const whatsappMessage = `Halo, saya sudah melakukan transfer pembayaran villa.\n\nNama: ${nama}\nTanggal & Waktu: ${dateTimeStr}`;
   const whatsappNumber = '6282265428224';
   const encodedMessage = encodeURIComponent(whatsappMessage);
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
@@ -967,29 +834,21 @@ async function openBarcodeModal(){
     return;
   }
   setPendingPaymentName(nama);
-  showPaymentStatusInfo(`Barcode dibuka untuk ${nama}. Halaman akan terkunci sampai konfirmasi pembayaran selesai.`);
+  showPaymentStatusInfo(`Barcode dibuka untuk ${nama}.`);
   try{
     await updatePaymentStatus(nama, 'Menunggu Konfirmasi');
   }
   catch(error){
-    console.error('Error updating payment status to pending:', error);
+    console.error('Error updating payment status:', error);
   }
   const barcodeBox = document.getElementById('barcodeBox');
   const barcodeNameText = document.getElementById('barcodeNameText');
   barcodeNameText.textContent = `Pembayaran untuk: ${nama}`;
   if(BARCODE_IMAGE_URL){
-    barcodeBox.innerHTML = `
-      <img src="${BARCODE_IMAGE_URL}" alt="Barcode pembayaran" style="max-width:100%;max-height:400px;border-radius:8px;">
-    `;
+    barcodeBox.innerHTML = `<img src="${BARCODE_IMAGE_URL}" alt="Barcode pembayaran" style="max-width:100%;max-height:320px;border-radius:6px;">`;
   }
   else{
-    barcodeBox.innerHTML = `
-      <div style="text-align:center;">
-        <div style="font-size:48px;margin-bottom:12px;">📷</div>
-        <h3 style="color:var(--dark);margin-bottom:8px;">Barcode belum dipasang</h3>
-        <p style="color:var(--text-light);font-size:14px;">Simpan file barcode di folder Data Villa, lalu isi BARCODE_IMAGE_URL dengan nama file tersebut.</p>
-      </div>
-    `;
+    barcodeBox.innerHTML = `<div style="text-align:center;"><div style="font-size:32px;margin-bottom:8px;">📷</div><p style="color:var(--text-light);font-size:11px;">Barcode belum dipasang</p></div>`;
   }
   document.getElementById('barcodeModal')
     .classList.remove('hidden');
@@ -998,16 +857,6 @@ async function openBarcodeModal(){
 async function closeBarcodeModal(){
   document.getElementById('barcodeModal')
     .classList.add('hidden');
-  const pendingName = getPendingPaymentName();
-  if(!pendingName){
-    return;
-  }
-  await showDialog({
-    title:'Konfirmasi Pembayaran',
-    message:`Pembayaran untuk ${pendingName} belum dikonfirmasi. Tombol ini hanya menutup barcode dan tetap menyimpan status menunggu konfirmasi.`,
-    type:'info',
-    confirmText:'Close'
-  });
 }
 
 async function loadData(){
@@ -1049,28 +898,9 @@ async function loadData(){
       else{
         belum++;
       }
-      tableBody.innerHTML += `
-        <tr>
-          <td>${item.no}</td>
-          <td style="font-weight:500;">${item.nama}</td>
-          <td>
-            <span class="status-badge ${statusClass}">
-              ${statusText}
-            </span>
-          </td>
-          <td>
-            <span class="status-badge ${isPaidItem(item) ? 'status-lunas' : 'status-belum'}">
-              ${isPaidItem(item) ? '✓ Lunas' : '-'}
-            </span>
-          </td>
-        </tr>
-      `;
+      tableBody.innerHTML += `<tr><td>${item.no}</td><td style="font-weight:500;">${item.nama}</td><td><span class="status-badge ${statusClass}">${statusText}</span></td><td><span class="status-badge ${isPaidItem(item) ? 'status-lunas' : 'status-belum'}">${isPaidItem(item) ? '✓ Lunas' : '-'}</span></td></tr>`;
       if(item.status === ''){
-        namaSelect.innerHTML += `
-          <option value="${item.nama}">
-            ${item.nama}
-          </option>
-        `;
+        namaSelect.innerHTML += `<option value="${item.nama}">${item.nama}</option>`;
       }
     });
     document.getElementById('ikutCount').innerText = ikut;
@@ -1080,13 +910,7 @@ async function loadData(){
   }
   catch(error){
     console.error(error);
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="4" style="text-align:center;padding:20px;color:#7f8c8d;">
-          Gagal memuat data. Silakan coba lagi.
-        </td>
-      </tr>
-    `;
+    tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:16px;color:#7f8c8d;">Gagal memuat data. Silakan coba lagi.</td></tr>`;
   }
   finally{
     loading.style.display = 'none';
@@ -1097,7 +921,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const pageLoader = document.getElementById('pageLoader');
   await applySiteSettings();
   setInterval(updateDeadlineUI, 1000);
-  pageLoader.style.display = 'flex';
   await loadData();
   await restorePendingPayment();
   updateDeadlineUI();
@@ -1197,12 +1020,10 @@ function setButtonLoading(button, loading, text = null){
       button.dataset.originalText = button.textContent.trim();
     }
     button.disabled = true;
-    button.classList.add('button-loading');
-    button.innerHTML = text ? `<span class="button-spinner"></span>${text}` : `<span class="button-spinner"></span>${button.dataset.originalText}`;
+    button.innerHTML = text ? `${text}` : button.dataset.originalText;
   }
   else{
     button.disabled = false;
-    button.classList.remove('button-loading');
     button.innerHTML = button.dataset.originalText || (text || 'OK');
   }
 }
