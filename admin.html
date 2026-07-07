@@ -305,16 +305,17 @@ textarea:focus{
 }
 
 .table-wrap{
-  overflow:auto;
+  overflow:hidden;
   border:1px solid var(--line);
-  border-radius:16px;
+  border-radius:18px;
   background:#fff;
+  box-shadow:0 14px 34px rgba(16,32,51,.06);
 }
 
 table{
   width:100%;
-  min-width:900px;
   border-collapse:collapse;
+  table-layout:fixed;
 }
 
 th,
@@ -322,21 +323,36 @@ td{
   padding:13px 14px;
   border-bottom:1px solid var(--line);
   text-align:left;
-  vertical-align:middle;
+  vertical-align:top;
 }
 
 th{
   position:sticky;
   top:0;
   z-index:2;
-  background:#f8fafc;
+  background:linear-gradient(135deg,#f8fafc,#eef2ff);
   color:#344054;
-  font-size:13px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
 }
 
 td{
   color:#344054;
   font-size:14px;
+}
+
+.table-cell-label{
+  display:none;
+}
+
+select{
+  width:100%;
+  min-height:42px;
+  border-radius:10px;
+  border:1px solid #d0d5dd;
+  background:#f8fafc;
+  padding:10px 12px;
 }
 
 tr:last-child td{
@@ -426,9 +442,76 @@ tr:last-child td{
   }
 }
 
+@media(max-width:760px){
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr{
+    display:block;
+  }
+
+  thead{
+    display:none;
+  }
+
+  tbody tr{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px;
+    margin-bottom:12px;
+    box-shadow:0 8px 20px rgba(16,32,51,.05);
+  }
+
+  tbody tr:last-child{
+    border-bottom:1px solid var(--line);
+  }
+
+  td{
+    border-bottom:0;
+    padding:8px 0;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  .table-cell-label{
+    display:block;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:700;
+    min-width:110px;
+    flex:0 0 110px;
+  }
+
+  td > *:last-child{
+    flex:1;
+  }
+
+  .row-actions{
+    flex-direction:column;
+  }
+
+  .row-actions button{
+    width:100%;
+  }
+
+  select{
+    min-height:40px;
+  }
+}
+
 @media(max-width:560px){
   .app{
     padding:14px;
+  }
+
+  .login-card,
+  .card{
+    padding:16px;
   }
 
   .grid,
@@ -436,10 +519,36 @@ tr:last-child td{
     grid-template-columns:1fr;
   }
 
+  .top-actions,
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
   .top-actions button,
   .toolbar button,
   .toolbar input{
     width:100%;
+    max-width:none;
+  }
+
+  .brand h1{
+    font-size:24px;
+  }
+
+  .tabs{
+    gap:6px;
+  }
+
+  .tab{
+    padding:9px 12px;
+    font-size:13px;
+  }
+
+  .toast{
+    left:12px;
+    right:12px;
+    bottom:12px;
     max-width:none;
   }
 }
@@ -530,6 +639,22 @@ tr:last-child td{
         <div class="field full">
           <label>Deskripsi Hero</label>
           <textarea id="settingDescription"></textarea>
+        </div>
+        <div class="field full">
+          <label>Judul Jadwal Acara</label>
+          <input id="settingScheduleTitle">
+        </div>
+        <div class="field full">
+          <label>Subjudul Jadwal Acara</label>
+          <input id="settingScheduleSubtitle">
+        </div>
+        <div class="field full">
+          <label>Baris Jadwal Acara</label>
+          <textarea id="settingScheduleRows" placeholder="Format: Jam | Acara | Keterangan"></textarea>
+        </div>
+        <div class="field full">
+          <label>Catatan Jadwal Acara</label>
+          <textarea id="settingScheduleNote"></textarea>
         </div>
         <div class="field">
           <label>Judul Pembayaran</label>
@@ -637,7 +762,11 @@ const DEFAULT_SETTINGS = {
   footer:"© exsociothree 2026. All Right Reserved.",
   barcodeUrl:"https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg",
   formDeadline:"2026-07-05T23:59:59+07:00",
-  paymentDeadline:"2026-07-12T23:59:59+07:00"
+  paymentDeadline:"2026-07-12T23:59:59+07:00",
+  scheduleTitle:"Jadwal Acara",
+  scheduleSubtitle:"Rangkaian kegiatan yang siap dijalankan",
+  scheduleNote:"Keputusan ini bersifat opsional dan dapat diubah.",
+  scheduleRows:"15.00 - 17.00 | Registrasi Kedatangan | Peserta tiba untuk check-in.\n17.00 - 19.00 | Free Time & Ibadah | Peserta dibebaskan untuk beraktivitas dan ibadah.\n19.00 - 20.00 | Makan Malam Bersama | Makan malam dan keakraban bersama.\n20.00 - 23.00 | Malam Bahagia (MABA) | Pesta malam dan aktivitas menarik.\n23.00 - 04.30 | Free Time | Istirahat.\n04.00 - 05.30 | Ibadah | Peserta wajib menjalankan ibadah sholat subuh.\n05.30 - 07.00 | Giat Pagi | Peserta dibebaskan untuk beraktivitas pagi.\n07.00 - 08.00 | Sarapan Pagi | Peserta melakukan makan bersama.\n08.00 - 10.30 | Games | Peserta melakukan aktivitas permainan.\n10.30 - 11.30 | Bersih-Bersih | Peserta melakukan kegiatan kebersihan.\n11.30 - 15.00 | Penutupan | Sayonara dan perpisahan."
 };
 
 let rows = [];
@@ -717,6 +846,10 @@ async function loadSettingsForm(){
   document.getElementById("settingAnnouncementText").value = settings.announcementText;
   document.getElementById("settingFooter").value = settings.footer;
   document.getElementById("settingBarcodeUrl").value = settings.barcodeUrl;
+  document.getElementById("settingScheduleTitle").value = settings.scheduleTitle;
+  document.getElementById("settingScheduleSubtitle").value = settings.scheduleSubtitle;
+  document.getElementById("settingScheduleRows").value = settings.scheduleRows;
+  document.getElementById("settingScheduleNote").value = settings.scheduleNote;
   document.getElementById("settingFormDeadline").value = toDateTimeLocal(settings.formDeadline);
   document.getElementById("settingPaymentDeadline").value = toDateTimeLocal(settings.paymentDeadline);
   updateSystemInfo(settings);
@@ -742,6 +875,10 @@ async function saveSettings(){
     announcementText:document.getElementById("settingAnnouncementText").value.trim(),
     footer:document.getElementById("settingFooter").value.trim(),
     barcodeUrl:document.getElementById("settingBarcodeUrl").value.trim(),
+    scheduleTitle:document.getElementById("settingScheduleTitle").value.trim(),
+    scheduleSubtitle:document.getElementById("settingScheduleSubtitle").value.trim(),
+    scheduleRows:document.getElementById("settingScheduleRows").value.trim(),
+    scheduleNote:document.getElementById("settingScheduleNote").value.trim(),
     formDeadline:fromDateTimeLocal(formDeadlineValue),
     paymentDeadline:fromDateTimeLocal(paymentDeadlineValue)
   };
@@ -875,30 +1012,43 @@ function renderTable(){
 
     return `
       <tr>
-        <td>${item.no || index + 1}</td>
-        <td><strong>${item.nama || "-"}</strong></td>
-        <td>
+        <td data-label="No">
+          <span class="table-cell-label">No</span>
+          <span>${item.no || index + 1}</span>
+        </td>
+        <td data-label="Nama">
+          <span class="table-cell-label">Nama</span>
+          <strong>${item.nama || "-"}</strong>
+        </td>
+        <td data-label="Status Saat Ini">
+          <span class="table-cell-label">Status Saat Ini</span>
           <span class="status-pill ${getStatusClass(status)}">${statusText}</span>
         </td>
-        <td>
+        <td data-label="Edit Status">
+          <span class="table-cell-label">Edit Status</span>
           <select id="status-${index}">
             <option value="" ${status === "" ? "selected" : ""}>Belum Mengisi</option>
             <option value="Mengikuti" ${status === "Mengikuti" ? "selected" : ""}>Mengikuti</option>
             <option value="Tidak Mengikuti" ${status === "Tidak Mengikuti" ? "selected" : ""}>Tidak Mengikuti</option>
           </select>
         </td>
-        <td>
+        <td data-label="Pembayaran">
+          <span class="table-cell-label">Pembayaran</span>
           <select id="payment-${index}">
             <option value="" ${!paid && !pending ? "selected" : ""}>Belum Lunas</option>
             <option value="MENUNGGU" ${pending ? "selected" : ""}>Menunggu Konfirmasi</option>
             <option value="Lunas" ${paid ? "selected" : ""}>Lunas</option>
           </select>
         </td>
-        <td>
-          <span class="status-pill ${paid ? "ok" : pending ? "pending" : "wait"}">${paymentValue || "Belum"}</span>
-          ${proofUrl ? `<br><a class="proof-link" href="${proofUrl}" target="_blank" rel="noopener">Lihat Bukti</a>` : ""}
+        <td data-label="Bukti">
+          <span class="table-cell-label">Bukti</span>
+          <div>
+            <span class="status-pill ${paid ? "ok" : pending ? "pending" : "wait"}">${paymentValue || "Belum"}</span>
+            ${proofUrl ? `<br><a class="proof-link" href="${proofUrl}" target="_blank" rel="noopener">Lihat Bukti</a>` : ""}
+          </div>
         </td>
-        <td>
+        <td data-label="Aksi">
+          <span class="table-cell-label">Aksi</span>
           <div class="row-actions">
             <button class="btn-primary" onclick="saveRow('${safeName}', ${index})">Simpan</button>
             ${pending ? `<button class="btn-primary" onclick="confirmPayment('${safeName}')">Konfirmasi Lunas</button>` : ""}
