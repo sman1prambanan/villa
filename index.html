@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Maintenance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#0f172a);
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+color:#fff;
+position:relative;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.circle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+animation:float 8s infinite ease-in-out;
+}
+
+.circle:nth-child(1){
+width:250px;
+height:250px;
+left:-80px;
+top:-80px;
+}
+
+.circle:nth-child(2){
+width:180px;
+height:180px;
+right:50px;
+bottom:50px;
+animation-delay:2s;
+}
+
+.circle:nth-child(3){
+width:100px;
+height:100px;
+right:20%;
+top:10%;
+animation-delay:4s;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-25px);
+}
+}
+
+.container{
+width:92%;
+max-width:760px;
+padding:45px;
+text-align:center;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.15);
+border-radius:30px;
+backdrop-filter:blur(20px);
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+z-index:10;
+}
+
+.logo{
+font-size:75px;
+margin-bottom:10px;
+animation:spin 5s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+h1{
+font-size:42px;
+margin-bottom:10px;
+font-weight:700;
+}
+
+.subtitle{
+font-size:18px;
+opacity:.9;
+line-height:1.7;
+margin-bottom:35px;
+}
+
+.countdown{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:35px;
+}
+
+.box{
+background:rgba(255,255,255,.12);
+border-radius:18px;
+padding:20px;
+}
+
+.box h2{
+font-size:42px;
+}
+
+.box span{
+font-size:14px;
+opacity:.8;
+}
+
+.progress{
+height:14px;
+background:rgba(255,255,255,.15);
+border-radius:50px;
+overflow:hidden;
+margin-top:25px;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#00ffcc,#38bdf8,#2563eb);
+border-radius:50px;
+transition:.5s;
+}
+
+.status{
+margin-top:18px;
+font-size:16px;
+opacity:.9;
+}
+
+.footer{
+margin-top:35px;
+font-size:13px;
+opacity:.7;
+}
+
+.open{
+display:none;
+animation:fade .8s;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.open h1{
+font-size:55px;
+margin-bottom:15px;
+color:#7CFF91;
+}
+
+.open p{
+font-size:20px;
+line-height:1.8;
+}
+
+.btn{
+display:inline-block;
+margin-top:30px;
+padding:15px 40px;
+background:#22c55e;
+color:white;
+text-decoration:none;
+border-radius:50px;
+font-weight:600;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+@media(max-width:700px){
+
+.container{
+padding:30px 20px;
+}
+
+.countdown{
+grid-template-columns:repeat(2,1fr);
+}
+
+h1{
+font-size:30px;
+}
+
+.box h2{
+font-size:30px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+<div id="maintenance">
+
+<div class="logo">⚙️</div>
+
+<h1>Sedang Maintenance</h1>
+
+<p class="subtitle">
+Website sedang dalam proses pembaruan sistem agar memberikan pengalaman yang lebih baik.
+<br><br>
+Mohon bersabar, kami akan segera kembali.
+</p>
+
+<div class="countdown">
+
+<div class="box">
+<h2 id="days">0</h2>
+<span>Hari</span>
+</div>
+
+<div class="box">
+<h2 id="hours">0</h2>
+<span>Jam</span>
+</div>
+
+<div class="box">
+<h2 id="minutes">0</h2>
+<span>Menit</span>
+</div>
+
+<div class="box">
+<h2 id="seconds">0</h2>
+<span>Detik</span>
+</div>
+
+</div>
+
+<div class="progress">
+<div class="bar" id="progressBar"></div>
+</div>
+
+<div class="status" id="status">
+Menghitung waktu...
+</div>
+
+<div class="footer">
+Website akan dibuka pada
+<br>
+<b>Rabu, 8 Juli 2026 • 10.00 WIB</b>
+</div>
+
+</div>
+
+<div class="open" id="opened">
+
+<h1>🎉 Website Telah Dibuka</h1>
+
+<p>
+Maintenance telah selesai.
+<br>
+Silakan masuk dan nikmati fitur terbaru.
+</p>
+
+<a href="home.html" class="btn">Masuk Website</a>
+
+</div>
+
+</div>
+
+<script>
+
+// WIB = UTC+7
+const target = new Date("2026-07-08T10:00:00+07:00").getTime();
+
+// Misal maintenance dimulai 7 Juli 2026 pukul 22.00 WIB
+const start = new Date("2026-07-07T22:00:00+07:00").getTime();
+
+function updateCountdown(){
+
+const now = new Date().getTime();
+const distance = target - now;
+
+if(distance <= 0){
+
+document.getElementById("maintenance").style.display="none";
+document.getElementById("opened").style.display="block";
+
+return;
+
+}
+
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("days").innerHTML=days;
+document.getElementById("hours").innerHTML=hours;
+document.getElementById("minutes").innerHTML=minutes;
+document.getElementById("seconds").innerHTML=seconds;
+
+document.getElementById("status").innerHTML=
+"Sisa waktu maintenance: "+days+" hari "+hours+" jam "+minutes+" menit "+seconds+" detik";
+
+let percent=((now-start)/(target-start))*100;
+
+if(percent<0) percent=0;
+if(percent>100) percent=100;
+
+document.getElementById("progressBar").style.width=percent+"%";
+
+}
+
+setInterval(updateCountdown,1000);
+
+updateCountdown();
+
+</script>
+
+</body>
+</html>
