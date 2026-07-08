@@ -15,102 +15,78 @@
 
 body{
     background:#ffffff;
-    color:#333;
-    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    height:100vh;
     text-align:center;
+    color:#333;
 }
 
 .container{
-    max-width:600px;
-    padding:30px;
+    max-width:500px;
+    padding:40px;
 }
 
 .icon{
-    font-size:60px;
+    font-size:70px;
     margin-bottom:20px;
 }
 
 h1{
-    font-size:32px;
+    font-size:36px;
     margin-bottom:15px;
 }
 
 p{
-    font-size:16px;
-    line-height:1.8;
     color:#666;
+    line-height:1.7;
+    margin-bottom:10px;
 }
 
-.countdown{
+.time{
+    display:inline-block;
     margin-top:25px;
-    font-size:20px;
+    padding:12px 22px;
+    background:#f4f4f4;
+    border-radius:10px;
     font-weight:bold;
-    color:#000;
+    color:#111;
 }
 
 .footer{
-    margin-top:20px;
-    font-size:14px;
-    color:#888;
+    margin-top:40px;
+    font-size:13px;
+    color:#999;
 }
 </style>
+
 </head>
 <body>
 
 <div class="container">
 
-<div class="icon">🚧</div>
+<div class="icon">🛠️</div>
 
-<h1>Website Sedang Dalam Maintenance</h1>
+<h1>Sedang Maintenance</h1>
 
 <p>
-Mohon maaf atas ketidaknyamanannya.<br>
-Website sedang dalam proses pemeliharaan dan peningkatan sistem.
+Mohon maaf, website sedang dalam proses perbaikan, Sementara ini web akan ditutup sementara
 </p>
 
-<div class="countdown" id="countdown">
-Menghitung waktu...
+<p>
+Website akan kembali dibuka jika maintenance sudah selesai
+</p>
+
+<div class="time">
+WEBSITE DI TUTUP
 </div>
 
 <div class="footer">
-Website akan kembali online pada<br>
-<b>Rabu, 8 Juli 2026 pukul 10.00 WIB</b>
+Terima kasih atas kesabaran dan pengertiannya.
 </div>
 
 </div>
-
-<script>
-const target = new Date("2026-07-08T10:00:00+07:00").getTime();
-
-function updateCountdown(){
-    const now = new Date().getTime();
-    const distance = target - now;
-
-    if(distance <= 0){
-        document.body.innerHTML = `
-            <div style="text-align:center;font-family:Arial,sans-serif;">
-                <h1>✅ Website Telah Dibuka</h1>
-                <p>Maintenance telah selesai.</p>
-            </div>
-        `;
-        return;
-    }
-
-    const hari = Math.floor(distance / (1000*60*60*24));
-    const jam = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    const menit = Math.floor((distance % (1000*60*60)) / (1000*60));
-    const detik = Math.floor((distance % (1000*60)) / 1000);
-
-    document.getElementById("countdown").innerHTML =
-        `${hari} Hari ${jam} Jam ${menit} Menit ${detik} Detik`;
-}
-
-updateCountdown();
-setInterval(updateCountdown,1000);
-</script>
 
 </body>
 </html>
