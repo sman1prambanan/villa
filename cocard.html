@@ -258,6 +258,43 @@ header{
     to { transform: rotate(360deg); }
 }
 
+.hidden{
+    display:none !important;
+}
+
+.blocked-overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(15,23,42,0.75);
+  z-index:999;
+  padding:24px;
+}
+
+.blocked-card{
+  background:#fff;
+  border-radius:20px;
+  padding:28px;
+  max-width:520px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 24px 60px rgba(15,23,42,0.18);
+}
+
+.blocked-card h2{
+  margin-bottom:16px;
+  font-size:24px;
+  color:#111827;
+}
+
+.blocked-card p{
+  margin-bottom:22px;
+  color:#475569;
+  line-height:1.7;
+}
+
 footer{
     background:var(--dark);
     color:#fff;
@@ -306,20 +343,58 @@ footer{
     padding:16px 14px 20px;
 }
 
+.blocked-overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(15,23,42,0.75);
+  z-index:999;
+  padding:24px;
+}
+
+.blocked-card{
+  background:#fff;
+  border-radius:20px;
+  padding:28px;
+  max-width:520px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 24px 60px rgba(15,23,42,0.18);
+}
+
+.blocked-card h2{
+  margin-bottom:16px;
+  font-size:24px;
+  color:#111827;
+}
+
+.blocked-card p{
+  margin-bottom:22px;
+  color:#475569;
+  line-height:1.7;
+}
+
 }
 </style>
 
 </head>
 <body>
 
+<div id="accessBlocked" class="blocked-overlay hidden">
+  <div class="blocked-card">
+    <h2>Akses CoCard Belum Dibuka</h2>
+    <p>Akses CoCard saat ini belum diizinkan oleh admin. Silakan kembali nanti atau hubungi admin untuk membuka akses.</p>
+    <a class="btn view" href="index.html">Kembali ke Beranda</a>
+  </div>
+</div>
+
 <header>
   <div class="header-content">
     <div class="header-logo">exsociothree</div>
     <nav class="header-nav">
-      <a href="index.html" class="header-link">Beranda</a>
-      <a href="#" class="header-link">CoCard</a>
-      <a href="index.html#events" class="header-link">Acara</a>
-      <a href="admin.html" class="header-link">Login</a>
+      <a href="index.html" class="header-link"><- Kembali</a>
     </nav>
   </div>
 </header>
@@ -368,6 +443,7 @@ Total File :
 <script>
 
 const API_URL="https://script.google.com/macros/s/AKfycbzJZMIPxAHU6nRLfFUEwdRQWqphkxRc_6u7Ahnl0K-N34NvIYLHssNhZgMzQijYtsoa/exec";
+const SETTINGS_API_URL = "https://script.google.com/macros/s/AKfycbyX9PWWMfWSSKshonyJEXzIdeU_K6qNVgZeVhvDjrzapJ489WHQ0SUbO2W-WDaCZf3uaQ/exec";
 
 let semuaFile=[];
 
@@ -480,6 +556,25 @@ tampil(hasil);
 });
 
 loadFiles();
+checkCoCardAccess();
+
+async function checkCoCardAccess(){
+  try{
+    const response = await fetch(`${SETTINGS_API_URL}?action=getSettings&t=${Date.now()}`);
+    const result = await response.json();
+    const settings = result.settings || result;
+    const enabled = String(settings.cocardEnabled) === 'true';
+    if(!enabled){
+      const overlay = document.getElementById('accessBlocked');
+      if(overlay){
+        overlay.classList.remove('hidden');
+      }
+    }
+  }
+  catch(error){
+    console.error('Gagal memeriksa akses CoCard:', error);
+  }
+}
 
 </script>
 
