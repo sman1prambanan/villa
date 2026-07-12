@@ -26,7 +26,7 @@
     <div class="header-logo">exsociothree</div>
     <nav class="header-nav">
       <a href="#" class="header-link">Beranda</a>
-      <a href="cocard.html" class="header-link">CoCard/a>
+      <a id="cocardLink" href="cocard.html" class="header-link">CoCard</a>
       <a href="#events" class="header-link">Acara</a>
     </nav>
   </div>
@@ -320,7 +320,8 @@ const DEFAULT_SITE_SETTINGS = {
   footer:'© exsociothree 2026. All Right Reserved.',
   barcodeUrl:'https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg',
   formDeadline:'2026-07-05T23:59:59+07:00',
-  paymentDeadline:'2026-07-12T23:59:59+07:00'
+  paymentDeadline:'2026-07-12T23:59:59+07:00',
+  cocardEnabled:'false'
 };
 let siteSettings = {...DEFAULT_SITE_SETTINGS};
 let BARCODE_IMAGE_URL = siteSettings.barcodeUrl;
@@ -463,6 +464,23 @@ function openAnnouncementModal(){
   document.getElementById('announcementModal').classList.remove('hidden');
 }
 
+function isCoCardEnabled(){
+  return String(siteSettings.cocardEnabled) === 'true';
+}
+
+function handleCoCardClick(event){
+  if(isCoCardEnabled()){
+    return;
+  }
+  event.preventDefault();
+  showDialog({
+    title:'Akses CoCard Belum Dibuka',
+    message:'Akses CoCard belum diizinkan oleh admin. Silakan hubungi admin untuk membuka akses.',
+    type:'info',
+    confirmText:'Tutup'
+  });
+}
+
 function closeAnnouncementModal(){
   document.getElementById('announcementModal').classList.add('hidden');
 }
@@ -476,6 +494,10 @@ async function applySiteSettings(){
   setTextById('siteTitle', siteSettings.title);
   setTextById('siteDescription', siteSettings.description);
   setTextById('siteFooter', siteSettings.footer);
+  const cocardLink = document.getElementById('cocardLink');
+  if(cocardLink){
+    cocardLink.href = isCoCardEnabled() ? 'cocard.html' : '#';
+  }
   updateDeadlineUI();
 }
 
@@ -949,6 +971,10 @@ async function loadData(){
 document.addEventListener('DOMContentLoaded', async () => {
   const pageLoader = document.getElementById('pageLoader');
   await applySiteSettings();
+  const cocardLink = document.getElementById('cocardLink');
+  if(cocardLink){
+    cocardLink.addEventListener('click', handleCoCardClick);
+  }
   setInterval(updateDeadlineUI, 1000);
   await loadData();
   await restorePendingPayment();
