@@ -669,6 +669,13 @@ tr:last-child td{
           <textarea id="settingPaymentDescription"></textarea>
         </div>
         <div class="field">
+          <label>Akses CoCard</label>
+          <div class="check-field">
+            <input type="checkbox" id="settingCoCardEnabled">
+            <label for="settingCoCardEnabled">Izinkan akses CoCard di halaman utama</label>
+          </div>
+        </div>
+        <div class="field">
           <label>Popup Pengumuman</label>
           <div class="check-field">
             <input type="checkbox" id="settingAnnouncementEnabled">
@@ -747,7 +754,7 @@ tr:last-child td{
 <div id="toast" class="toast hidden"></div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbywnbcQugebQ33dxrE32duZyasRqg0eoLKWnLE7AedenplHjRwt0WS2U1U2Dm1pdZleUw/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzv_QKgYEb-xoXFLy3NGSH4rv-5DY4fKb2HYbKhLHBfIdMsdwMKCQfa9qSvlH0UD60tSw/exec";
 const ADMIN_PASSWORD = "VIGARA@123";
 const SESSION_KEY = "villa_admin_logged_in";
 const DEFAULT_SETTINGS = {
@@ -763,6 +770,7 @@ const DEFAULT_SETTINGS = {
   barcodeUrl:"https://i.ibb.co.com/YTFTh0j2/Whats-App-Image-2026-06-01-at-12-12-10.jpg",
   formDeadline:"2026-07-05T23:59:59+07:00",
   paymentDeadline:"2026-07-12T23:59:59+07:00",
+  cocardEnabled:"false",
   scheduleTitle:"Jadwal Acara",
   scheduleSubtitle:"Rangkaian kegiatan yang siap dijalankan",
   scheduleNote:"Keputusan ini bersifat opsional dan dapat diubah.",
@@ -842,6 +850,7 @@ async function loadSettingsForm(){
   document.getElementById("settingPaymentTitle").value = settings.paymentTitle;
   document.getElementById("settingPaymentDescription").value = settings.paymentDescription;
   document.getElementById("settingAnnouncementEnabled").checked = String(settings.announcementEnabled) === "true";
+  document.getElementById("settingCoCardEnabled").checked = String(settings.cocardEnabled) === "true";
   document.getElementById("settingAnnouncementTitle").value = settings.announcementTitle;
   document.getElementById("settingAnnouncementText").value = settings.announcementText;
   document.getElementById("settingFooter").value = settings.footer;
@@ -875,6 +884,7 @@ async function saveSettings(){
     announcementText:document.getElementById("settingAnnouncementText").value.trim(),
     footer:document.getElementById("settingFooter").value.trim(),
     barcodeUrl:document.getElementById("settingBarcodeUrl").value.trim(),
+    cocardEnabled:document.getElementById("settingCoCardEnabled").checked ? "true" : "false",
     scheduleTitle:document.getElementById("settingScheduleTitle").value.trim(),
     scheduleSubtitle:document.getElementById("settingScheduleSubtitle").value.trim(),
     scheduleRows:document.getElementById("settingScheduleRows").value.trim(),
