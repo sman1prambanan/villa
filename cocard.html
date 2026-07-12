@@ -258,6 +258,47 @@ header{
     to { transform: rotate(360deg); }
 }
 
+.pagination{
+    grid-column:1 / -1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:16px;
+}
+
+.page-btn{
+    border:1px solid #d1d5db;
+    background:#fff;
+    color:#111827;
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .2s ease;
+}
+
+.page-btn:hover:not(:disabled){
+    background:#f3f4f6;
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.page-btn:disabled{
+    opacity:0.55;
+    cursor:not-allowed;
+}
+
+.page-indicator{
+    font-size:13px;
+    font-weight:600;
+    color:#4b5563;
+    min-width:110px;
+    text-align:center;
+}
+
 .hidden{
     display:none !important;
 }
@@ -446,48 +487,90 @@ const API_URL="https://script.google.com/macros/s/AKfycbzJZMIPxAHU6nRLfFUEwdRQWq
 const SETTINGS_API_URL = "https://script.google.com/macros/s/AKfycbyX9PWWMfWSSKshonyJEXzIdeU_K6qNVgZeVhvDjrzapJ489WHQ0SUbO2W-WDaCZf3uaQ/exec";
 
 let semuaFile=[];
+let filteredFile=[];
+let currentPage=1;
+const itemsPerPage=5;
+
+function normalizeFiles(data){
+  if(!Array.isArray(data)) return [];
+
+  return data
+    .filter(Boolean)
+    .map((file, index) => ({ ...file, __index: index }))
+    .sort((a, b) => {
+      const aName = String(a.nama || '').toLowerCase();
+      const bName = String(b.nama || '').toLowerCase();
+      return aName.localeCompare(bName) || a.__index - b.__index;
+    });
+}
 
 function icon(type){
 
-type=type.toLowerCase();
+const value=String(type||"").toLowerCase();
 
-if(type.includes("pdf")) return "📕";
-if(type.includes("image")) return "🖼️";
-if(type.includes("png")) return "🖼️";
-if(type.includes("jpg")) return "🖼️";
-if(type.includes("jpeg")) return "🖼️";
-if(type.includes("word")) return "📘";
-if(type.includes("doc")) return "📘";
-if(type.includes("excel")) return "📗";
-if(type.includes("sheet")) return "📗";
-if(type.includes("presentation")) return "📙";
-if(type.includes("ppt")) return "📙";
-if(type.includes("video")) return "🎬";
-if(type.includes("zip")) return "🗜️";
+if(value.includes("pdf")) return "📕";
+if(value.includes("image")) return "🖼️";
+if(value.includes("png")) return "🖼️";
+if(value.includes("jpg")) return "🖼️";
+if(value.includes("jpeg")) return "🖼️";
+if(value.includes("word")) return "📘";
+if(value.includes("doc")) return "📘";
+if(value.includes("excel")) return "📗";
+if(value.includes("sheet")) return "📗";
+if(value.includes("presentation")) return "📙";
+if(value.includes("ppt")) return "📙";
+if(value.includes("video")) return "🎬";
+if(value.includes("zip")) return "🗜️";
 
 return "📄";
 
 }
 
+function renderPagination(totalItems,page,totalPages){
+
+if(totalItems===0){
+return "";
+}
+
+return `
+<div class="pagination">
+<button class="page-btn" data-page="prev" ${page===1?"disabled":""}>← Sebelumnya</button>
+<div class="page-indicator">Slide ${page} dari ${totalPages}</div>
+<button class="page-btn" data-page="next" ${page===totalPages?"disabled":""}>Selanjutnya →</button>
+</div>`;
+
+}
+
 function tampil(data){
 
-document.getElementById("jumlah").textContent=data.length;
+filteredFile=normalizeFiles(data);
+const totalItems=filteredFile.length;
+const totalPages=Math.max(1,Math.ceil(totalItems/itemsPerPage));
+currentPage=Math.min(currentPage,totalPages);
+
+document.getElementById("jumlah").textContent=totalItems;
+
+if(totalItems===0){
+
+document.getElementById("files").innerHTML=`<div class="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">File tidak ditemukan.</div>
+</div>`;
+return;
+}
+
+const startIndex=(currentPage-1)*itemsPerPage;
+const pageItems=filteredFile.slice(startIndex,startIndex+itemsPerPage);
 
 let html="";
 
-data.forEach(file=>{
+pageItems.forEach(file=>{
 
 html+=`
 
 <div class="card">
 
-<div class="icon">
-${icon(file.tipe)}
-</div>
-
 <h3>${file.nama}</h3>
-
-
 
 <div class="buttons">
 
@@ -505,17 +588,16 @@ Lihat
 
 });
 
-if(data.length==0){
-
-html=`<div class="loading">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">File tidak ditemukan.</div>
-</div>`;
-
-}
+html+=renderPagination(totalItems,currentPage,totalPages);
 
 document.getElementById("files").innerHTML=html;
 
+}
+
+function changePage(nextPage){
+const totalPages=Math.max(1,Math.ceil(filteredFile.length/itemsPerPage));
+currentPage=Math.min(Math.max(1,nextPage),totalPages);
+tampil(filteredFile);
 }
 
 async function loadFiles(){
@@ -524,8 +606,13 @@ try{
 
 const res=await fetch(API_URL);
 
-semuaFile=await res.json();
+if(!res.ok){
+throw new Error(`Gagal mengambil data: ${res.status}`);
+}
 
+const data=await res.json();
+semuaFile=normalizeFiles(data);
+currentPage=1;
 tampil(semuaFile);
 
 }catch(e){
@@ -547,12 +634,20 @@ const keyword=this.value.toLowerCase();
 
 const hasil=semuaFile.filter(file=>
 
-file.nama.toLowerCase().includes(keyword)
+(String(file.nama||"").toLowerCase()).includes(keyword)
 
 );
 
+currentPage=1;
 tampil(hasil);
 
+});
+
+document.addEventListener("click",function(event){
+const button=event.target.closest("[data-page]");
+if(!button)return;
+const nextPage=button.dataset.page==="next"?currentPage+1:currentPage-1;
+changePage(nextPage);
 });
 
 loadFiles();
